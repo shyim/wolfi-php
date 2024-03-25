@@ -1,0 +1,71 @@
+name: Build All
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        strategy:
+          matrix:
+            include:
+              - os: ubuntu-latest
+                arch: x86_64
+                deb: amd64
+              - os: nscloud-ubuntu-22.04-arm64-2x8
+                arch: arm64
+                deb: arm64
+        runs-on: ${{ matrix.os }}
+        container:
+            image: ghcr.io/wolfi-dev/sdk:latest
+            options: |
+                --cap-add NET_ADMIN --cap-add SYS_ADMIN --device /dev/fuse --security-opt seccomp=unconfined --security-opt apparmor:unconfined
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            
+            - name: Install rclone
+              run: |
+                cd /tmp
+                curl -o rclone.zip -L https://downloads.rclone.org/rclone-current-linux-${{ matrix.deb }}.zip
+                unzip rclone.zip
+                cp rclone*/rclone /usr/bin/
+                rm -rf rclone*
+            
+            - name: Rclone Setup
+              run: |
+                mkdir -p $HOME/.config/rclone
+                cat <<EOF > $HOME/.config/rclone/rclone.conf
+                [Packages]
+                type = s3
+                provider = Cloudflare
+                env_auth = true
+                region = auto
+                endpoint = https://963ff7fb9c523564b5f3a398ab39d488.r2.cloudflarestorage.com
+                EOF
+
+            - name: Create packages directory
+              run: mkdir -p packages
+
+            - name: Get signing key
+              run: |
+                echo "${{ secrets.SIGNING_KEY }}" | base64 -d > php-signing.rsa
+
+            - name: Build packages
+              env:
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              run: |
+                rclone mount Packages:wolfi-php packages --allow-other --write-back-cache --vfs-cache-mode full -vvv &
+                sleep 5
+                pid=$!
+
+                for file in *.yaml; do
+                    melange build \
+                        --arch ${{ matrix.arch }} \
+                        -r https://packages.wolfi.dev/os \
+                        -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
+                        --signing-key php-signing.rsa \
+                        $file
+                done
+
+                kill $pid
