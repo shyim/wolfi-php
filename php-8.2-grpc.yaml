@@ -1,5 +1,5 @@
 package:
-  name: php-8.3-grpc
+  name: php-8.2-grpc
   version: 1.62.1
   epoch: 0
   description: "A PHP extension for gRPC"
@@ -9,7 +9,7 @@ package:
     runtime:
       - ${{package.name}}-config
       - grpc
-      - php-8.3
+      - php-8.2
 
 environment:
   contents:
@@ -18,8 +18,8 @@ environment:
       - build-base
       - busybox
       - grpc-dev
-      - php-8.3
-      - php-8.3-dev
+      - php-8.2
+      - php-8.2-dev
 
 pipeline:
   - uses: git-checkout

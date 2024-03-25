@@ -8,8 +8,6 @@ on:
 jobs:
     lint:
         runs-on: ubuntu-latest
-        container:
-            image: ghcr.io/wolfi-dev/sdk:latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -20,6 +18,8 @@ jobs:
         runs-on: ubuntu-latest
         container:
             image: ghcr.io/wolfi-dev/sdk:latest
+            options: |
+              --cap-add NET_ADMIN --cap-add SYS_ADMIN --device /dev/fuse --security-opt seccomp=unconfined --security-opt apparmor:unconfined
         steps:
             - name: Checkout
               uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
 
             - name: Look for changed files
               id: changes
-              uses: tj-actions/changed-files
+              uses: tj-actions/changed-files@v43
               with:
                 files_yaml: |
                   melange:
@@ -38,7 +38,12 @@ jobs:
             - name: Build all packages
               run: |
                 for file in ${{ steps.changes.outputs.melange_all_changed_files }}; do
+                    if [[ $file == ".yam.yaml" ]]; then
+                        continue
+                    fi
+
                     melange build \
+                        --arch x86_64 \
                         -r https://packages.wolfi.dev/os \
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
                         $file
