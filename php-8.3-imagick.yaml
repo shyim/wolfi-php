@@ -1,14 +1,14 @@
 package:
-  name: php-8.3-grpc
-  version: 1.62.1
+  name: php-8.3-imagick
+  version: 3.7.0
   epoch: 0
-  description: "A PHP extension for gRPC"
+  description: "PHP extension for ImageMagick"
   copyright:
-    - license: Apache-2.0
+    - license: PHP-3.01
   dependencies:
     runtime:
       - ${{package.name}}-config
-      - grpc
+      - imagemagick
       - php-8.3
 environment:
   contents:
@@ -16,32 +16,32 @@ environment:
       - autoconf
       - build-base
       - busybox
-      - grpc-dev
+      - imagemagick-dev
       - php-8.3
       - php-8.3-dev
 pipeline:
   - uses: git-checkout
     with:
-      repository: https://github.com/grpc/grpc
-      tag: "v${{package.version}}"
-      expected-commit: 6d7a55890e076a3a8abc8185b6bf0153fcf9d179
+      repository: https://github.com/Imagick/imagick
+      tag: "${{package.version}}"
+      expected-commit: 52ec37ff633de0e5cca159a6437b8c340afe7831
   - name: Prepare build
-    runs: cd src/php/ext/grpc && phpize
+    runs: phpize
   - name: Configure
-    runs: cd src/php/ext/grpc && ./configure
+    runs: |
+      set -x
+      ./configure
   - name: Make install
     runs: |
-      cd src/php/ext/grpc
       INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
 subpackages:
   - name: ${{package.name}}-config
     pipeline:
       - runs: |
           mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
-          echo "extension=grpc.so" > "${{targets.subpkgdir}}/etc/php/conf.d/grpc.ini"
+          echo "extension=imagick.so" > "${{targets.subpkgdir}}/etc/php/conf.d/imagick.ini"
 update:
   enabled: true
   github:
-    identifier: grpc/grpc
-    strip-prefix: v
-    tag-filter: v
+    identifier: Imagick/imagick
+    use-tag: true
