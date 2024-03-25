@@ -1,0 +1,45 @@
+name: Pull Request Check
+
+on:
+    pull_request:
+        paths:
+            - "*.yaml"
+
+jobs:
+    lint:
+        runs-on: ubuntu-latest
+        container:
+            image: ghcr.io/wolfi-dev/sdk:latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Lint using Wolfictl
+              uses: wolfi-dev/actions/wolfictl-lint@main
+
+    build:
+        runs-on: ubuntu-latest
+        container:
+            image: ghcr.io/wolfi-dev/sdk:latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Generate key
+              run: melange keygen
+
+            - name: Look for changed files
+              id: changes
+              uses: tj-actions/changed-files
+              with:
+                files_yaml: |
+                  melange:
+                    - ./*.yaml
+            
+            - name: Build all packages
+              run: |
+                for file in ${{ steps.changes.outputs.melange_all_changed_files }}; do
+                    melange build \
+                        -r https://packages.wolfi.dev/os \
+                        -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
+                        $file
+                done
