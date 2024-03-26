@@ -51,5 +51,5 @@ subpackages:
 update:
   enabled: true
   github:
-    identifier: php-excimer/php-excimer
+    identifier: wikimedia/mediawiki-php-excimer
     use-tag: true
