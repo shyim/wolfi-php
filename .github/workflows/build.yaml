@@ -74,14 +74,7 @@ jobs:
                 echo "${{ secrets.SIGNING_KEY }}" | base64 -d > php-signing.rsa
 
             - name: Build packages
-              env:
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
               run: |
-                rclone mount Packages:wolfi-php packages --allow-other --write-back-cache --vfs-cache-mode full -v &
-                sleep 5
-                pid=$!
-
                 for file in ${{ steps.changes.outputs.melange_all_changed_files }}; do
                     if [[ $file == ".yam.yaml" ]]; then
                         continue
@@ -89,16 +82,25 @@ jobs:
 
                     melange build \
                         --arch ${{ matrix.arch }} \
+                        --generate-index=false \
                         -r https://packages.wolfi.dev/os \
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
                         --signing-key php-signing.rsa \
                         $file
                 done
 
-                melange sign-index \
-                    --signing-key php-signing.rsa \
-                    packages/${{ matrix.arch }}/APKINDEX.tar.gz
+            - name: Upload to registry
+              env:
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              run: |
+                rclone copy packages Packages:wolfi-php
+                rclone copy Packages:wolfi-php/${{ matrix.arch }}/APKINDEX.tar.gz .
 
-                sleep 60
+                melange index \
+                  --arch ${{ matrix.arch }} \
+                  -m \
+                  --signing-key php-signing.rsa \
+                  packages/${{ matrix.arch }}/*.apk
 
-                kill $pid
+                rclone copy APKINDEX.tar.gz Packages:wolfi-php/${{ matrix.arch }}/
