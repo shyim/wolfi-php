@@ -1,0 +1,45 @@
+package:
+  name: php-8.3-blackfire
+  version: 1.92.10
+  epoch: 0
+  description: "Blackfire PHP Probe"
+  copyright:
+    - license: Proprietary
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-8.3
+
+environment:
+  contents:
+    packages:
+      - busybox
+      - wget
+
+pipeline:
+  - name: Download
+    runs: |
+      ARCH=amd64
+
+      if [[ "${{build.arch}}" == "aarch64" ]]; then
+        ARCH=arm64
+      fi
+
+      wget -O blackfire.so "https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_$ARCH-php-83.so"
+
+  - name: Copy
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp blackfire.so ${{targets.destdir}}/usr/lib/php/modules/blackfire.so
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=blackfire.so" > "${{targets.subpkgdir}}/etc/php/conf.d/blackfire.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 371867
