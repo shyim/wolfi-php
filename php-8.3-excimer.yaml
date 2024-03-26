@@ -1,6 +1,6 @@
 package:
   name: php-8.3-excimer
-  version: 1.2.0
+  version: 1.2.1
   epoch: 0
   description: "Excimer is a PHP extension that provides an interrupting timer and a low-overhead sampling profiler."
   copyright:
@@ -24,7 +24,7 @@ pipeline:
     with:
       repository: https://github.com/wikimedia/mediawiki-php-excimer
       tag: "${{package.version}}"
-      expected-commit: 4cc649be12183c672867e9184d09d7cd9c604d91
+      expected-commit: 986209d032a1cc53ac930e44f50acb74ecee8816
 
   - name: Prepare build
     runs: phpize
