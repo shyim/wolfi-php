@@ -1,13 +1,17 @@
-name: Build All
+name: Build packages
 
 on:
-    workflow_dispatch:
+    push:
+      branches:
+        - main
+      paths:
+        - '*.yaml'
 
 jobs:
     build:
         concurrency:
-            group: build-${{ matrix.os }}
-            cancel-in-progress: false
+          group: build-${{ matrix.os }}
+          cancel-in-progress: false
         strategy:
           matrix:
             include:
@@ -15,7 +19,7 @@ jobs:
                 arch: x86_64
                 deb: amd64
               - os: nscloud-ubuntu-22.04-arm64-2x8
-                arch: arm64
+                arch: aarch64
                 deb: arm64
         runs-on: ${{ matrix.os }}
         container:
@@ -25,6 +29,22 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+
+            - name: 'Trust the github workspace'
+              run: |
+                # This is to avoid fatal errors about "dubious ownership" because we are
+                # running inside of a container action with the workspace mounted in.
+                git config --global --add safe.directory "$(pwd)"
+
+            - name: Look for changed files
+              id: changes
+              uses: tj-actions/changed-files@v43
+              with:
+                files_yaml: |
+                  melange:
+                    - ./*.yaml
             
             - name: Install rclone
               run: |
@@ -62,7 +82,11 @@ jobs:
                 sleep 5
                 pid=$!
 
-                for file in *.yaml; do
+                for file in ${{ steps.changes.outputs.melange_all_changed_files }}; do
+                    if [[ $file == ".yam.yaml" ]]; then
+                        continue
+                    fi
+
                     melange build \
                         --arch ${{ matrix.arch }} \
                         -r https://packages.wolfi.dev/os \
