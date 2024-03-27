@@ -1,6 +1,6 @@
 package:
   name: php-8.2-blackfire
-  version: 1.92.10
+  version: 1.92.13
   epoch: 0
   description: "Blackfire PHP Probe"
   copyright:
