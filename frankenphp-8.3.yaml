@@ -60,6 +60,8 @@ pipeline:
       mkdir -p ${{targets.destdir}}/usr/bin/
       cp frankenphp ${{targets.destdir}}/usr/bin/frankenphp
 
+  - uses: strip
+
 update:
   enabled: true
   github:
