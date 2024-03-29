@@ -1,3 +1,4 @@
-packages
-*.rsa
-*.pub
+/packages
+/*.rsa
+/*.pub
+/repositories
