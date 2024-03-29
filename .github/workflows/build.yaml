@@ -85,6 +85,8 @@ jobs:
                         --generate-index=false \
                         -r https://packages.wolfi.dev/os \
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
+                        -r https://wolfi.fos.gg \
+                        -k https://wolfi.fos.gg/php-signing.rsa.pub \
                         --signing-key php-signing.rsa \
                         $file
                 done
