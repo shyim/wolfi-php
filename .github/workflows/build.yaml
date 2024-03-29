@@ -106,3 +106,10 @@ jobs:
                   packages/${{ matrix.arch }}/*.apk
 
                 rclone copy APKINDEX.tar.gz Packages:wolfi-php/${{ matrix.arch }}/
+
+            - name: Purge cache
+              uses: jakejarvis/cloudflare-purge-action@master
+              env:
+                CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+                CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+                PURGE_URLS: '["https://wolfi.fos.gg/x86_64/APKINDEX.tar.gz", "https://wolfi.fos.gg/aarch64/APKINDEX.tar.gz"]'
