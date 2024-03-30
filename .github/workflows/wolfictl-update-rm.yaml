@@ -17,7 +17,7 @@ env:
 jobs:
   update:
     name: Wolfictl Update
-    if: github.repository == 'FriendsOfShopware/wolfi-php'
+    if: github.repository == 'shyim/wolfi-php'
     runs-on: ubuntu-latest
 
     steps:
