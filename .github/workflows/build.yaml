@@ -85,8 +85,8 @@ jobs:
                         --generate-index=false \
                         -r https://packages.wolfi.dev/os \
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
-                        -r https://wolfi.fos.gg \
-                        -k https://wolfi.fos.gg/php-signing.rsa.pub \
+                        -r https://wolfi.shyim.me \
+                        -k https://wolfi.shyim.me/php-signing.rsa.pub \
                         --signing-key php-signing.rsa \
                         $file
                 done
@@ -112,4 +112,4 @@ jobs:
               env:
                 CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
                 CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
-                PURGE_URLS: '["https://wolfi.fos.gg/x86_64/APKINDEX.tar.gz", "https://wolfi.fos.gg/aarch64/APKINDEX.tar.gz"]'
+                PURGE_URLS: '["https://wolfi.shyim.me/x86_64/APKINDEX.tar.gz", "https://wolfi.shyim.me/aarch64/APKINDEX.tar.gz"]'
