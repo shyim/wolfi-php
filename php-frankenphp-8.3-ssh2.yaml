@@ -1,10 +1,10 @@
 package:
-  name: php-frankenphp-8.3-phalcon
-  version: 5.6.2
+  name: php-frankenphp-8.3-ssh2
+  version: 1.4.1
   epoch: 0
-  description: "Phalcon is a full stack PHP framework offering low resource consumption and high performance"
+  description: "Bindings for the libssh2 library"
   copyright:
-    - license: BSD-3
+    - license: PHP-3.01
   dependencies:
     runtime:
       - ${{package.name}}-config
@@ -16,26 +16,24 @@ environment:
       - autoconf
       - build-base
       - busybox
+      - libssh2-dev
       - php-frankenphp-8.3
       - php-frankenphp-8.3-dev
 
 pipeline:
   - uses: git-checkout
     with:
-      repository: https://github.com/phalcon/cphalcon
-      tag: "v${{package.version}}"
-      expected-commit: 888d2b28e40bea14c79e612bedaee49f2b5e3b08
+      repository: https://github.com/php/pecl-networking-ssh2
+      tag: "${{package.version}}"
+      expected-commit: 65c0da1b18373e2286d1569a176101583225a2c0
 
   - name: Prepare build
-    working-directory: ext
     runs: phpize
 
   - name: Build
-    working-directory: ext
     runs: ./configure
 
   - name: Make install
-    working-directory: ext
     runs: |
       INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
 
@@ -44,12 +42,10 @@ subpackages:
     pipeline:
       - runs: |
           mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
-          echo "extension=phalcon.so" > "${{targets.subpkgdir}}/etc/php/conf.d/phalcon.ini"
+          echo "extension=ssh2.so" > "${{targets.subpkgdir}}/etc/php/conf.d/ssh2.ini"
 
 update:
   enabled: true
   github:
-    identifier: phalcon/cphalcon
-    strip-prefix: v
-    tag-filter: v
+    identifier: php/pecl-networking-ssh2
     use-tag: true
