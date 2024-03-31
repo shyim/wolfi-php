@@ -45,6 +45,7 @@ subpackages:
       - runs: |
           mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
           echo "extension=zstd.so" > "${{targets.subpkgdir}}/etc/php/conf.d/zstd.ini"
+
 update:
   enabled: true
   github:

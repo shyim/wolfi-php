@@ -13,15 +13,15 @@ environment:
   contents:
     packages:
       - autoconf
+      - brotli-dev
       - build-base
       - busybox
       - go
-      - brotli-dev
-      - readline-dev
-      - sqlite-dev
       - libxml2-dev
       - php-frankenphp-8.3
       - php-frankenphp-8.3-dev
+      - readline-dev
+      - sqlite-dev
 
 pipeline:
   - runs: |
