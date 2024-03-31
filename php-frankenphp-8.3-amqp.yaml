@@ -1,7 +1,7 @@
 package:
   name: php-frankenphp-8.3-amqp
   version: 2.1.2
-  epoch: 0
+  epoch: 1
   description: "PHP extension to communicate with any AMQP compliant server"
   copyright:
     - license: PHP-3.01
@@ -45,9 +45,6 @@ pipeline:
 
 subpackages:
   - name: ${{package.name}}-config
-    dependencies:
-      provides:
-        - php-amqp-config=${{package.full-version}}
     pipeline:
       - runs: |
           mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
