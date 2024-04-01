@@ -49,3 +49,4 @@ update:
   github:
     identifier: php/pecl-networking-ssh2
     use-tag: true
+    tag-filter-prefix: 1.
