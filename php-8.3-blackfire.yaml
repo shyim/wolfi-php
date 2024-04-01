@@ -14,23 +14,33 @@ environment:
   contents:
     packages:
       - busybox
-      - wget
 
 pipeline:
-  - name: Download
-    runs: |
-      ARCH=amd64
+  - uses: fetch
+    if: ${{build.arch}} == 'x86_64'
+    with:
+      uri: https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_amd64-php-83.so
+      expected-sha512: 9913262461442937f4ea237cb27496fe3480ec2f9bf3ee9dc88f7b3d4d336ebe50a5bf4ed4494e07392f4bdd103e123ba9d57982622ef79fedc8f2ef30028a5a
+      extract: false
 
-      if [[ "${{build.arch}}" == "aarch64" ]]; then
-        ARCH=arm64
-      fi
-
-      wget -O blackfire.so "https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_$ARCH-php-83.so"
+  - uses: fetch
+    if: ${{build.arch}} == 'aarch64'
+    with:
+      uri: https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_arm64-php-83.so
+      expected-sha512: 60ebf0bd32238b5be8454488e91edf59ce4a7cbc60c516add9abb4f61ddf7cc082dff7aaf9fcac1334e10a548975f668688f06a6dce6b03e7f8f1a4a03d7221e
+      extract: false
 
   - name: Copy
+    if: ${{build.arch}} == 'x86_64'
     runs: |
       mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
-      cp blackfire.so ${{targets.destdir}}/usr/lib/php/modules/blackfire.so
+      cp blackfire-php-linux_amd64-php-83.so ${{targets.destdir}}/usr/lib/php/modules/blackfire.so
+
+  - name: Copy
+    if: ${{build.arch}} == 'aarch64'
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp blackfire-php-linux_arm64-php-83.so ${{targets.destdir}}/usr/lib/php/modules/blackfire.so
 
 subpackages:
   - name: ${{package.name}}-config
