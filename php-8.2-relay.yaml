@@ -8,11 +8,11 @@ package:
   dependencies:
     runtime:
       - ${{package.name}}-config
-      - php-8.2-msgpack
-      - php-8.2-igbinary
-      - php-8.2
-      - libzstd1
       - liblz4-1
+      - libzstd1
+      - php-8.2
+      - php-8.2-igbinary
+      - php-8.2-msgpack
 
 environment:
   contents:
@@ -30,7 +30,7 @@ pipeline:
   - uses: fetch
     if: ${{build.arch}} == 'aarch64'
     with:
-      uri: https://builds.r2.relay.so/v${{package.version}}/relay-v${{package.version}}-php8.2-debian-arm64+libssl3.tar.gz
+      uri: https://builds.r2.relay.so/v${{package.version}}/relay-v${{package.version}}-php8.2-debian-aarch64+libssl3.tar.gz
       expected-sha512: df806787bf4ac4ea415f33f5a1a4de39e65a52be45fd34945fb53bde28706319886a5b05e2e3ce82a85bf1f591a246ea3ced52536bfbe93cc48e7dee84b2fa94
 
   - name: Copy

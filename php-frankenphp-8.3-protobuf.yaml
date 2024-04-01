@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.3-protobuf
-  version: 3.25.3
+  version: 4.26.1
   epoch: 0
   description: "Protocol Buffers - Google's data interchange format"
   copyright:
@@ -9,14 +9,6 @@ package:
     runtime:
       - ${{package.name}}-config
       - php-frankenphp-8.3
-
-var-transforms:
-  # 3.25.2 -> 25.2
-  # TODO: Figure out how to make this 25.2.0
-  - from: ${{package.version}}
-    match: \d+\.(\d+\.\d+)
-    replace: $1
-    to: mangled-package-version
 
 environment:
   contents:
@@ -32,7 +24,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://pecl.php.net/get/protobuf-${{package.version}}.tgz
-      expected-sha512: c3b35da36357c84dfaa9655cd40f9ab89c785ce31735c4925d84003145de1b69d551669a4ab1baf2188ed9631ef0db933f81784310d766f4198b043c63a04c77
+      expected-sha512: d29bd9fe03a5a1a39d77524d48ddcedcf0699aaa2e42e8f1e0756885e2585615fc5076d326af7099876a383219490851c094f8f16a3fdeee76c3176b81d61740
 
   - name: Prepare build
     runs: phpize
@@ -53,8 +45,5 @@ subpackages:
 
 update:
   enabled: true
-  github:
-    identifier: protocolbuffers/protobuf
-    strip-prefix: v
-    use-tag: true
-    tag-filter: "v3."
+  release-monitor:
+    identifier: 141406
