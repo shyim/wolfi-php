@@ -1,0 +1,46 @@
+package:
+  name: php-8.2-tideways
+  version: 5.7.2
+  epoch: 0
+  description: "Tideways PHP Probe"
+  copyright:
+    - license: Proprietary
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-8.2
+
+environment:
+  contents:
+    packages:
+      - busybox
+      - wget
+
+pipeline:
+  - name: Download
+    runs: |
+      ARCH=x86_64
+
+      if [[ "${{build.arch}}" == "aarch64" ]]; then
+        ARCH=arm64
+      fi
+
+      wget -O tideways.tar.gz "https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-$ARCH.tar.gz"
+      tar xfv tideways.tar.gz
+
+  - name: Copy
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp tideways-${{package.version}}/tideways-php-8.2.so ${{targets.destdir}}/usr/lib/php/modules/tideways.so
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=tideways.so" > "${{targets.subpkgdir}}/etc/php/conf.d/tideways.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 371870
