@@ -1,13 +1,13 @@
 package:
-  name: frankenphp-8.3
+  name: frankenphp
   version: 1.1.2
-  epoch: 1
+  epoch: 0
   description: "FrankenPHP"
   copyright:
     - license: MIT
   dependencies:
     runtime:
-      - php-frankenphp-8.3
+      - php-frankenphp
 
 environment:
   contents:
