@@ -14,19 +14,19 @@ environment:
   contents:
     packages:
       - busybox
-      - wget
 
 pipeline:
-  - name: Download
-    runs: |
-      ARCH=x86_64
+  - uses: fetch
+    if: ${{build.arch}} == 'x86_64'
+    with:
+      uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-x86_64.tar.gz
+      expected-sha512: ca9d35976b0c4efdbd53dac073f2d5095e74ae467361f5d93087772acde554acb6415a4a3ce90bfa37d8f1747c69e2098e2cf1f163866ac2ae1c9b881490bf9e
 
-      if [[ "${{build.arch}}" == "aarch64" ]]; then
-        ARCH=arm64
-      fi
-
-      wget -O tideways.tar.gz "https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-$ARCH.tar.gz"
-      tar xfv tideways.tar.gz
+  - uses: fetch
+    if: ${{build.arch}} == 'aarch64'
+    with:
+      uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-arm64.tar.gz
+      expected-sha512: ed872b313ae911b36114d9617793b8cae9ed83ebb9dc6ac4db911dfd36755be37737eec5e94fa2c0e020221d1dc704b07035a8086c38bb3cfef298485bd9c5eb
 
   - name: Copy
     runs: |
