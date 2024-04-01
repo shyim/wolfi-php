@@ -1,0 +1,60 @@
+package:
+  name: php-frankenphp-8.3-protobuf
+  version: 3.25.3
+  epoch: 0
+  description: "Protocol Buffers - Google's data interchange format"
+  copyright:
+    - license: BSD-3-Clause
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-frankenphp-8.3
+
+var-transforms:
+  # 3.25.2 -> 25.2
+  # TODO: Figure out how to make this 25.2.0
+  - from: ${{package.version}}
+    match: \d+\.(\d+\.\d+)
+    replace: $1
+    to: mangled-package-version
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - build-base
+      - busybox
+      - php-frankenphp-8.3
+      - php-frankenphp-8.3-dev
+      - protobuf-dev
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://pecl.php.net/get/protobuf-${{package.version}}.tgz
+      expected-sha512: c3b35da36357c84dfaa9655cd40f9ab89c785ce31735c4925d84003145de1b69d551669a4ab1baf2188ed9631ef0db933f81784310d766f4198b043c63a04c77
+
+  - name: Prepare build
+    runs: phpize
+
+  - name: Build
+    runs: ./configure
+
+  - name: Make install
+    runs: |
+      INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=protobuf.so" > "${{targets.subpkgdir}}/etc/php/conf.d/protobuf.ini"
+
+update:
+  enabled: true
+  github:
+    identifier: protocolbuffers/protobuf
+    strip-prefix: v
+    use-tag: true
+    tag-filter: "v3."
