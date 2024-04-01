@@ -1,14 +1,13 @@
 package:
   name: php-frankenphp-8.3
   version: 8.3.4
-  epoch: 1
+  epoch: 2
   description: "the PHP programming language"
   copyright:
     - license: PHP-3.01
   dependencies:
-    # DO NOT USE PROVIDES UNTIL A RELEASE HAS BEEN MADE (not a release candidate)
-    #provides:
-    #  - php=${{package.full-version}}
+    provides:
+     - php-frankenphp=${{package.full-version}}
     runtime:
       - libxml2
       - ${{package.name}}-config
