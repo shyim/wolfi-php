@@ -1,0 +1,70 @@
+package:
+  name: frankenphp
+  version: 1.1.2
+  epoch: 0
+  description: "FrankenPHP"
+  copyright:
+    - license: MIT
+  dependencies:
+    runtime:
+      - php-frankenphp-8.3
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - brotli-dev
+      - build-base
+      - busybox
+      - go
+      - libxml2-dev
+      - php-frankenphp-8.3
+      - php-frankenphp-8.3-dev
+      - readline-dev
+      - sqlite-dev
+
+pipeline:
+  - runs: |
+      mkdir -p "${{targets.destdir}}/var/www/html"
+      echo "<?php phpinfo();" > ${{targets.destdir}}/var/www/html/index.php
+
+      mkdir -p "${{targets.destdir}}/etc/caddy/"
+      cat <<EOF > "${{targets.destdir}}/etc/caddy/Caddyfile"
+      {
+        # Enable FrankenPHP
+        frankenphp
+        # Configure when the directive must be executed
+        order php_server before file_server
+      }
+
+      :8000 {
+        root * /var/www/html
+        # Enable compression (optional)
+        encode zstd br gzip
+        # Execute PHP files in the current directory and serve assets
+        php_server
+      }
+      EOF
+
+  - uses: git-checkout
+    with:
+      repository: https://github.com/dunglas/frankenphp
+      tag: "v${{package.version}}"
+      expected-commit: e7e0dbfa3dcea98f2d19fd9c275324094a2610e9
+
+  - name: Build
+    working-directory: caddy/frankenphp
+    runs: |
+      set -e
+      CGO_CFLAGS=$(php-config --includes) CGO_LDFLAGS="$(php-config --ldflags) $(php-config --libs)" go build
+      mkdir -p ${{targets.destdir}}/usr/bin/
+      cp frankenphp ${{targets.destdir}}/usr/bin/frankenphp
+
+  - uses: strip
+
+update:
+  enabled: true
+  github:
+    identifier: dunglas/frankenphp
+    strip-prefix: v
+    tag-filter: v

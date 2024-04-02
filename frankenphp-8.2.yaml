@@ -7,7 +7,7 @@ package:
     - license: MIT
   dependencies:
     runtime:
-      - php-frankenphp
+      - php-frankenphp-8.2
 
 environment:
   contents:
@@ -18,8 +18,8 @@ environment:
       - busybox
       - go
       - libxml2-dev
-      - php-frankenphp-8.3
-      - php-frankenphp-8.3-dev
+      - php-frankenphp-8.2
+      - php-frankenphp-8.2-dev
       - readline-dev
       - sqlite-dev
 
