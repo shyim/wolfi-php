@@ -6,11 +6,9 @@ package:
   copyright:
     - license: PHP-3.01
   dependencies:
-    provides:
-     - php-frankenphp=${{package.full-version}}
     runtime:
-      - libxml2
       - ${{package.name}}-config
+      - libxml2
 
 environment:
   contents:

@@ -46,5 +46,7 @@ jobs:
                         --arch x86_64 \
                         -r https://packages.wolfi.dev/os \
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
+                        -r https://wolfi.shyim.me \
+                        -k https://wolfi.shyim.me/php-signing.rsa.pub \
                         $file
                 done
