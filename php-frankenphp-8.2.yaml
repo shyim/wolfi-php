@@ -1,11 +1,13 @@
 package:
   name: php-frankenphp-8.2
   version: 8.2.17
-  epoch: 0
+  epoch: 1
   description: "the PHP programming language"
   copyright:
     - license: PHP-3.01
   dependencies:
+    provides:
+      - php=${{package.full-version}}
     runtime:
       - ${{package.name}}-config
       - libxml2
