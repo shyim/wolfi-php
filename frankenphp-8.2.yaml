@@ -1,7 +1,7 @@
 package:
   name: frankenphp-8.2
   version: 1.1.2
-  epoch: 0
+  epoch: 1
   description: "FrankenPHP"
   copyright:
     - license: MIT
@@ -17,6 +17,7 @@ environment:
       - build-base
       - busybox
       - go
+      - libcap-utils
       - libxml2-dev
       - php-frankenphp-8.2
       - php-frankenphp-8.2-dev
@@ -61,6 +62,8 @@ pipeline:
       cp frankenphp ${{targets.destdir}}/usr/bin/frankenphp
 
   - uses: strip
+
+  - runs: setcap cap_net_bind_service=+ep "${{targets.destdir}}/usr/bin/frankenphp"
 
 update:
   enabled: true
