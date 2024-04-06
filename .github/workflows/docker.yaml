@@ -11,7 +11,11 @@ on:
 
 permissions:
     contents: read
+    id-token: write
     packages: write
+
+env:
+  COSIGN_EXPERIMENTAL: 1
 
 jobs:
     base:
@@ -19,6 +23,9 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+
+            - name: Install Cosign
+              uses: sigstore/cosign-installer@v3
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
@@ -37,6 +44,9 @@ jobs:
                 push: true
                 provenance: false
 
+            - name: Sign image
+              run: cosign sign --yes ghcr.io/shyim/wolfi-php/base:latest
+
     frankenphp:
       runs-on: ubuntu-latest
       strategy:
@@ -47,6 +57,9 @@ jobs:
       steps:
           - name: Checkout
             uses: actions/checkout@v4
+
+          - name: Install Cosign
+            uses: sigstore/cosign-installer@v3
 
           - name: Set up QEMU
             uses: docker/setup-qemu-action@v3
@@ -65,3 +78,6 @@ jobs:
               build-args: PHP_VERSION=${{ matrix.php }}
               push: true
               provenance: false
+
+          - name: Sign image
+            run: cosign sign --yes ghcr.io/shyim/wolfi-php/frankenphp:${{ matrix.php }}
