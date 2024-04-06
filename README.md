@@ -143,7 +143,22 @@ RUN apk add --no-cache php-frankenphp-8.3-gd
 It's important that you only install extensions matching to your PHP version and with the `php-frankenphp` prefix.
 
 
+### Pinning package versions
+
+To pin the version of a package, you can specify the version in the `apk add` command. Example could be:
+
+```shell
+apk add --no-cache php-8.2=8.2.17-r0
+```
+
+To get the excact current version of a package, you can run `apk info php-8.2`.
+
+### Package updates
+
+[We have a Bot which checks every hour of there is a package update, and opens a PR if there is a new version available.](https://github.com/shyim/wolfi-php/actions/workflows/wolfictl-update-gh.yaml)
+
 ## Examples
 
 - [Symfony Demo with FrankenPHP](examples/frankenphp-symfony-demo/README.md)
-- [FPM](examples/fpm/README.md)
+- [Nginx + PHP-FPM](examples/nginx-php-fpm/README.md)
+- [FPM standalone](examples/fpm/README.md)
