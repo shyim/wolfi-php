@@ -1,0 +1,2 @@
+nginx: /usr/sbin/nginx
+php-fpm: /usr/sbin/php-fpm
