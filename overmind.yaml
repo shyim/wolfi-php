@@ -1,10 +1,13 @@
 package:
   name: overmind
   version: 2.5.1
-  epoch: 0
+  epoch: 1
   description: "Process manager for Procfile-based applications"
   copyright:
     - license: MIT
+  dependencies:
+    runtime:
+      - tmux
 
 environment:
   contents:
