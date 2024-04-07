@@ -1,7 +1,8 @@
 # Wolfi-OS PHP Repository
 
 This Repository contains popular PHP extensions pre-compiled to be used in Wolfi-OS. [I am trying to upstream all packages to the official repository](https://github.com/wolfi-dev/os/pulls?q=+is%3Apr+author%3Ashyim+).
-The packages are all built for x86_64 and aarch64. A GitHub bot is automatically updating the packages and opens a new PR if a new version is available.
+The packages are all built for x86_64 and aarch64. A GitHub bot is automatically updating the packages and opens a new PR if a new version is available. 
+The repository is hosted with Cloudflare R2 storage and with good caching rules, so it should be fast world-wide. 
 
 ## Installation of Repository
 
@@ -102,6 +103,7 @@ We provide also base image for ready to start without touching configuration:
 
 - [FrankenPHP](./images/frankenphp)
 - [Nginx + PHP-FPM](./images/nginx)
+- [Caddy + PHP-FPM](./images/caddy)
 - [FPM standalone](./images/fpm)
 
 ### Pinning package versions
@@ -123,3 +125,4 @@ To get the excact current version of a package, you can run `apk info php-8.2`.
 - [Symfony Demo with FrankenPHP](examples/frankenphp-symfony-demo/)
 - [Symfony Demo with FPM](examples/fpm-symfony-demo/)
 - [Symfony Demo with Nginx](examples/nginx-symfony-demo/)
+- [Symfony Demo with Caddy](examples/caddy-symfony-demo/)

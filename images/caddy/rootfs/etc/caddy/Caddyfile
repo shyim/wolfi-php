@@ -1,0 +1,15 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME} {
+	root * /var/www/html/public
+	php_fastcgi unix//tmp/php-fpm.sock {
+		trusted_proxies private_ranges
+	}
+	encode gzip
+	file_server
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+}

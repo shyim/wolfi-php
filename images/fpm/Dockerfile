@@ -13,6 +13,7 @@ EOF
 WORKDIR /var/www/html
 ENV PHP_FPM_USER=www-data \
     PHP_FPM_GROUP=www-data \
+    PHP_FPM_ACCESS_LOG=/proc/self/fd/2 \
     PHP_FPM_LISTEN=[::]:9000 \
     PHP_FPM_PM=dynamic \
     PHP_FPM_PM_MAX_CHILDREN=5 \
