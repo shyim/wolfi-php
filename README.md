@@ -94,54 +94,14 @@ CMD [ "--config", "/etc/caddy/Caddyfile" ]
 
 After building the image, you can run the container with `docker run -p 8000:8000 <image>` and it should show a PHP info page.
 
-### "Drop-in" replacement for official FrankenPHP image
+To learn more about FrankenPHP, [see here](./images/frankenphp)
 
-We provide also a replacement like the official FrankenPHP image same Caddyfile, but with Wolfi.
+## Base images
 
-```dockerfile
-# 8.2 is also available
-FROM ghcr.io/shyim/wolfi-php/frankenphp:8.3
+We provide also base image for ready to start without touching configuration:
 
-# copy source code to /app/public
-COPY . /app/public
-```
-
-To run the container, as a non-root user, you can do the following:
-
-```dockerfile
-FROM ghcr.io/shyim/wolfi-php/frankenphp:8.3
-
-ARG USER=www-data
-
-RUN \
-    mkdir -p /data/caddy && mkdir -p /config/caddy; \
-    apk add --no-cache libcap-utils; \
-	adduser -D ${USER}; \
-	# Add additional capability to bind to port 80 and 443
-	setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/frankenphp; \
-	# Give write access to /data/caddy and /config/caddy
-	chown -R ${USER}:${USER} /data/caddy && chown -R ${USER}:${USER} /config/caddy; \
-    apk del libcap-utils
-
-USER ${USER}
-```
-
-### Installing extensions
-
-To install PHP extensions, you can use the `apk` package manager. For example, to install the `gd` extension, you can run:
-
-```dockerfile
-# pick one of these
-FROM ghcr.io/shyim/wolfi-php/base:latest
-# frankenphp one, bases on the base image
-FROM ghcr.io/shyim/wolfi-php/frankenphp:8.3
-
-
-RUN apk add --no-cache php-frankenphp-8.3-gd
-```
-
-It's important that you only install extensions matching to your PHP version and with the `php-frankenphp` prefix.
-
+- [FrankenPHP](./images/frankenphp)
+- [FPM](./images/fpm)
 
 ### Pinning package versions
 
