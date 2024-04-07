@@ -1,11 +1,11 @@
 # Nginx + PHP-FPM
 
-This image contains Nginx and PHP-FPM in the same container. To run both processes in the same container, we use overmind a Procfile compatible process manager.
+This image contains Nginx and PHP-FPM in the same container. To run both processes in the same container, we use hivemind a Procfile compatible process manager.
 
 ## Usage
 
 ```dockerfile
-FROM ghcr.io/shyim/wolfi-php/fpm:8.3
+FROM ghcr.io/shyim/wolfi-php/nginx:8.3
 
 # Install missing extensions
 RUN apk add --no-cache php-8.3-redis php-8.3-gd
@@ -19,7 +19,7 @@ docker build -t my-image .
 docker run -p 8080:8080 my-image
 ```
 
-You can run it for testing purposes also directly, `docker run --rm -p 8080:8080 ghcr.io/shyim/wolfi-php/fpm:8.3` and you should see at `http://localhost:8000` the php info page.
+You can run it for testing purposes also directly, `docker run --rm -p 8080:8080 ghcr.io/shyim/wolfi-php/nginx:8.3` and you should see at `http://localhost:8000` the php info page.
 
 ## PHP Extensions / PHP Configuration
 

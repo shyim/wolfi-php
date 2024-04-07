@@ -1,0 +1,2 @@
+caddy: /usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+php-fpm: /usr/sbin/php-fpm
