@@ -1,0 +1,11 @@
+services:
+  fpm:
+    build:
+      context: .
+      target: fpm
+  nginx:
+    build:
+      context: .
+      target: nginx
+    ports:
+      - "8000:8000"
