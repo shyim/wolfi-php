@@ -1,7 +1,7 @@
 package:
   name: frankenphp-8.2
   version: 1.1.2
-  epoch: 2
+  epoch: 3
   description: "FrankenPHP"
   copyright:
     - license: MIT
@@ -17,11 +17,14 @@ environment:
       - build-base
       - busybox
       - go
+      - gobump
       - libxml2-dev
+      - patch
       - php-frankenphp-8.2
       - php-frankenphp-8.2-dev
       - readline-dev
       - sqlite-dev
+      - xcaddy
 
 pipeline:
   - runs: |
@@ -52,13 +55,45 @@ pipeline:
       tag: "v${{package.version}}"
       expected-commit: e7e0dbfa3dcea98f2d19fd9c275324094a2610e9
 
-  - name: Build
-    working-directory: caddy/frankenphp
-    runs: |
+  - uses: git-checkout
+    with:
+      expected-commit: 6d9a83376b5e19b3c0368541ee46044ab284038b
+      repository: https://github.com/caddyserver/caddy
+      tag: v2.7.6
+      destination: caddyserver
+
+  - uses: fetch
+    with:
+      uri: https://raw.githubusercontent.com/wolfi-dev/os/f453d99b209c90e8392a59cfc84442f1431890f0/caddy/quic-go.patch
+      expected-sha256: 3223d6d1418cd1c07db50297d8e9396ca662e63d29decb3e336fbc96040fb4b1
+      extract: false
+
+  - runs: |
       set -e
-      CGO_CFLAGS=$(php-config --includes) CGO_LDFLAGS="$(php-config --ldflags) $(php-config --libs)" go build
+      mv quic-go.patch caddyserver
+      cd caddyserver
+      patch -p1 < quic-go.patch
+
+  - runs: gobump --packages "golang.org/x/crypto@v0.17.0 github.com/quic-go/quic-go@v0.42.0 google.golang.org/protobuf@v1.33.0 github.com/jackc/pgx/v4@v4.18.2"
+    working-directory: caddyserver
+
+  - name: Build
+    runs: |
+      export CGO_CFLAGS=$(php-config --includes)
+      export CGO_LDFLAGS="$(php-config --ldflags) $(php-config --libs)"
+      export XCADDY_GO_BUILD_FLAGS="-ldflags '-w -s'"
+      export CGO_ENABLED=1
+
       mkdir -p ${{targets.destdir}}/usr/bin/
-      cp frankenphp ${{targets.destdir}}/usr/bin/frankenphp
+
+      xcaddy build \
+        --output ${{targets.destdir}}/usr/bin/frankenphp \
+        --with github.com/dunglas/frankenphp=./ \
+        --with github.com/dunglas/frankenphp/caddy=./caddy/ \
+        --with github.com/caddyserver/caddy/v2=./caddyserver \
+        --with github.com/dunglas/caddy-cbrotli \
+        --with github.com/dunglas/mercure/caddy \
+        --with github.com/dunglas/vulcain/caddy
 
   - uses: strip
 
