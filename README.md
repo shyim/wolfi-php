@@ -120,5 +120,5 @@ To get the excact current version of a package, you can run `apk info php-8.2`.
 ## Examples
 
 - [Symfony Demo with FrankenPHP](examples/frankenphp-symfony-demo/README.md)
+- [Symfony demo with FPM](examples/fpm-symfony-demo/README.md)
 - [Nginx + PHP-FPM](examples/nginx-php-fpm/README.md)
-- [FPM standalone](examples/fpm/README.md)
