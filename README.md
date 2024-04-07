@@ -101,7 +101,8 @@ To learn more about FrankenPHP, [see here](./images/frankenphp)
 We provide also base image for ready to start without touching configuration:
 
 - [FrankenPHP](./images/frankenphp)
-- [FPM](./images/fpm)
+- [Nginx + PHP-FPM](./images/nginx)
+- [FPM standalone](./images/fpm)
 
 ### Pinning package versions
 
@@ -119,6 +120,6 @@ To get the excact current version of a package, you can run `apk info php-8.2`.
 
 ## Examples
 
-- [Symfony Demo with FrankenPHP](examples/frankenphp-symfony-demo/README.md)
-- [Symfony demo with FPM](examples/fpm-symfony-demo/README.md)
-- [Nginx + PHP-FPM](examples/nginx-php-fpm/README.md)
+- [Symfony Demo with FrankenPHP](examples/frankenphp-symfony-demo/)
+- [Symfony Demo with FPM](examples/fpm-symfony-demo/)
+- [Symfony Demo with Nginx](examples/nginx-symfony-demo/)
