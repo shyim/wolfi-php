@@ -22,7 +22,7 @@ docker run --rm -p 80:80 -p 443:443 my-image
 If you want to disable HTTPS, you can use the following environment variable:
 
 ```bash
-dockr run \
+docker run \
     --rm \
     -e SERVER_NAME=:80 \
     -p 80:80 my-image
