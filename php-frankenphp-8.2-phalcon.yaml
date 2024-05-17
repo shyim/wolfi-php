@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.2-phalcon
-  version: 5.6.2
+  version: 5.7.0
   epoch: 0
   description: "Phalcon is a full stack PHP framework offering low resource consumption and high performance"
   copyright:
@@ -24,7 +24,7 @@ pipeline:
     with:
       repository: https://github.com/phalcon/cphalcon
       tag: "v${{package.version}}"
-      expected-commit: 888d2b28e40bea14c79e612bedaee49f2b5e3b08
+      expected-commit: 6cedc11a8b5783ba5333b111a3edfb88494e6640
 
   - name: Prepare build
     working-directory: ext
