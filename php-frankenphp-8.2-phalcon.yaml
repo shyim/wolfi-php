@@ -4,7 +4,7 @@ package:
   epoch: 1
   description: "Phalcon is a full stack PHP framework offering low resource consumption and high performance"
   copyright:
-    - license: BSD-3
+    - license: BSD-3-Clause
   dependencies:
     runtime:
       - ${{package.name}}-config
