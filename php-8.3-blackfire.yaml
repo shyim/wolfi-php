@@ -4,7 +4,7 @@ package:
   epoch: 0
   description: "Blackfire PHP Probe"
   copyright:
-    - license: Proprietary
+    - license: PROPRIETARY
   dependencies:
     runtime:
       - ${{package.name}}-config

@@ -4,7 +4,7 @@ package:
   epoch: 0
   description: "Relay is a Redis™ client like PhpRedis and Predis, except two orders of magnitude faster"
   copyright:
-    - license: Proprietary
+    - license: PROPRIETARY
   dependencies:
     runtime:
       - ${{package.name}}-config
