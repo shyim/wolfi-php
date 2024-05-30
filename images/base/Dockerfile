@@ -1,6 +1,7 @@
 FROM cgr.dev/chainguard/wolfi-base:latest
 
-RUN echo "https://wolfi.shyim.me" >> /etc/apk/repositories && \
+RUN echo "https://wolfi.shyim.me" > /etc/apk/repositories && \
+echo "https://packages.wolfi.dev/os" >> /etc/apk/repositories && \
 cat <<EOF > /etc/apk/keys/php-signing.rsa.pub
 -----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA9s0rytmiqI5l6IgwLqiD
