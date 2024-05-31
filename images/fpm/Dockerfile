@@ -8,6 +8,7 @@ apk add --no-cache \
     php-${PHP_VERSION}-fpm 
 adduser -u 82 www-data -D
 mkdir -p /var/www/html
+chown www-data:www-data /var/www/html
 EOF
 
 WORKDIR /var/www/html
