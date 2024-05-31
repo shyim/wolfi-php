@@ -11,7 +11,8 @@ apk add --no-cache \
     nginx
 EOF
 
-COPY --link rootfs /
+COPY --link rootfs/etc /etc
+COPY --link --chown=82:82 rootfs/var/www/html /var/www/html
 EXPOSE 8000
 
 CMD ["/usr/bin/hivemind", "/etc/Procfile"]
