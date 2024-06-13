@@ -127,3 +127,7 @@ To get the excact current version of a package, you can run `apk info php-8.2`.
 - [Symfony Demo with FPM](examples/fpm-symfony-demo/)
 - [Symfony Demo with Nginx](examples/nginx-symfony-demo/)
 - [Symfony Demo with Caddy](examples/caddy-symfony-demo/)
+
+## Thanks to Namespace.so
+
+Thanks to [namespace.so](https://namespace.so) for sponsoring their fast GitHub runners. Checkout [namespace.so](https://namespace.so) if you need better GitHub runners or Docker remote builders.
