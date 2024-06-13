@@ -23,7 +23,7 @@ jobs:
                 deb: arm64
         runs-on: ${{ matrix.os }}
         container:
-            image: ghcr.io/wolfi-dev/sdk:latest
+            image: quay.io/shyim/wolfi-dev:latest
             options: |
                 --cap-add NET_ADMIN --cap-add SYS_ADMIN --device /dev/fuse --security-opt seccomp=unconfined --security-opt apparmor:unconfined
         steps:
