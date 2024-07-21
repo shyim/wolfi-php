@@ -1,0 +1,44 @@
+package:
+  name: blackfire
+  version: 2.28.9
+  epoch: 0
+  description: "Blackfire CLI"
+  copyright:
+    - license: PROPRIETARY
+  options:
+    no-provides: true
+
+environment:
+  contents:
+    packages:
+      - bash
+      - busybox
+      - curl
+
+pipeline:
+  - uses: fetch
+    if: ${{build.arch}} == 'x86_64'
+    with:
+      uri: https://blackfire.io/api/v1/releases/cli/linux/${{build.arch}}
+      expected-sha512: 85c2a6105dc12c8e4f61baa4cd7503731ff59c571bef0c8fba150fad16a70b8feed8480dd691e142541e6bd079717ddd53fa8776309798f668542334e089467e
+
+  - uses: fetch
+    if: ${{build.arch}} == 'aarch64'
+    with:
+      uri: https://blackfire.io/api/v1/releases/cli/linux/${{build.arch}}
+      expected-sha512: 99573578281904cb8865edb1668a6e9ddec1eb52337a8610b808eeccdc59b28dba8e3b3dce2155f610f75a4806bba4783319647137bae4da0ccdeb9471c9ba58
+
+  - runs: |
+      tar xfv ${{build.arch}}
+      mkdir -p ${{targets.destdir}}/usr/bin
+      mv blackfire ${{targets.destdir}}/usr/bin/
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 372834
+
+test:
+  pipeline:
+    - runs: |
+        blackfire version
