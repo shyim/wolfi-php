@@ -1,6 +1,6 @@
 package:
   name: php-8.2-tideways
-  version: 5.10.2
+  version: 5.10.4
   epoch: 0
   description: "Tideways PHP Probe"
   copyright:
@@ -20,13 +20,13 @@ pipeline:
     if: ${{build.arch}} == 'x86_64'
     with:
       uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-x86_64.tar.gz
-      expected-sha512: 5bfe89b72bea3d2d100ce6356c760178842bc99f82f1561f7791aa9839e05f69bf36b4dbb33e7c73b5dd272892f27e0654308df4e5224ee11659a6d89ce3bb1d
+      expected-sha512: e23ffdcf2e65e41630cf934ae2c208de09e46c3c095904084606b82d26d0949f53d19951b907c4a5da6c57165f9e5287dfc8c2834da1220e86b0643dacf1c19b
 
   - uses: fetch
     if: ${{build.arch}} == 'aarch64'
     with:
       uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-arm64.tar.gz
-      expected-sha512: b36c8a18a49e7d8ae18376b8521068f33d4b32a448e442fc9a2cfd29619d2df6787dc1a943f7a6b4ed68dd6a198d173d59d81df60073ae93d1dc7ddd6896b66f
+      expected-sha512: 69a111d2e0c9479be2d04c7916f178bfb1a0325bdcc0c9b878fbf4f7164ac93f136efbf05da6e8a370f9b10cf0d39c397f950f45aefc5b7191818d0a353d578d
 
   - name: Copy
     runs: |
