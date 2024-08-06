@@ -15,12 +15,15 @@ package:
 environment:
   contents:
     packages:
+      - aom-dev
+      - autoconf
       - bison
       - build-base
       - busybox
       - bzip2-dev
       - ca-certificates-bundle
       - curl-dev
+      - dav1d-dev
       - file
       - freetds
       - freetds-dev
@@ -31,6 +34,7 @@ environment:
       - libffi-dev
       - libjpeg-turbo-dev
       - libpng-dev
+      - libpsl-dev
       - libsodium-dev
       - libtool
       - libwebp-dev
@@ -39,14 +43,16 @@ environment:
       - libxpm-dev
       - libxslt-dev
       - libzip
+      - nghttp2-dev
       - oniguruma-dev
       - openldap-dev
       - openssl-dev
-      - patch
       - postgresql-dev
+      - re2c
       - readline-dev
       - sqlite-dev
       - unixodbc-dev
+      - wget
 
 pipeline:
   - uses: fetch
