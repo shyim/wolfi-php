@@ -1,0 +1,42 @@
+---
+name: 'wolfictl-update-gh'
+description: |
+  Wolfictl Update From GitHub.
+
+inputs:
+  repository:
+    description: |
+      GitHub repository to use org/repo.
+    required: true
+    default: ""
+  token:
+    description: |
+      GitHub Token or OctoSts token.
+    required: true
+    default: ""
+  git_author_name:
+    description: |
+      Author name to commit.
+    required: true
+    default: ""
+  git_author_email:
+    description: |
+      Author emails to commit.
+    required: true
+    default: ""
+
+runs:
+  using: 'docker'
+  image: docker://quay.io/shyim/wolfi-dev:latest
+  entrypoint: wolfictl
+  args:
+    - update
+    - https://github.com/${{ inputs.repository }}
+    - --release-monitoring-query=false
+    - --use-gitsign
+    - --github-labels=request-version-update
+    - --github-labels=automated pr
+  env:
+    GITHUB_TOKEN: ${{ inputs.token }}
+    GIT_AUTHOR_NAME: ${{ inputs.git_author_name }}
+    GIT_AUTHOR_EMAIL: ${{ inputs.git_author_email }}
