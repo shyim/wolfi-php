@@ -36,10 +36,4 @@ jobs:
           GIT_AUTHOR_EMAIL: ${{ env.GIT_AUTHOR_EMAIL }}
       with:
         entrypoint: wolfictl
-        args: |
-          update
-          https://github.com/${{github.repository}}
-          --release-monitoring-query=false
-          --use-gitsign
-          --github-labels=request-version-update
-          --github-labels=automated pr
+        args: update https://github.com/${{github.repository}} --release-monitoring-query=false --use-gitsign --github-labels=request-version-update --github-labels=automated pr
