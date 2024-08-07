@@ -30,7 +30,7 @@ jobs:
         scope: ${{ github.repository }}
         identity: github-updates
 
-    - uses: .github/action/wolfictl-update-gh.yaml
+    - uses: ./.github/action
       with:
         repository: ${{github.repository}}
         release_monitor_token: ${{ secrets.RELEASE_MONITOR_TOKEN }}
