@@ -18,7 +18,7 @@ jobs:
               - os: ubuntu-latest
                 arch: x86_64
                 deb: amd64
-              - os: nscloud-ubuntu-22.04-arm64-4x16
+              - os: nscloud-ubuntu-22.04-arm64-8x8
                 arch: aarch64
                 deb: arm64
         runs-on: ${{ matrix.os }}
