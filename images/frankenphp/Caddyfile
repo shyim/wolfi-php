@@ -1,4 +1,6 @@
 {
+    cache
+    
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
@@ -16,6 +18,8 @@
 {$CADDY_EXTRA_CONFIG}
 
 {$SERVER_NAME:localhost} {
+    cache
+
 	#log {
 	#	# Redact the authorization query parameter that can be set by Mercure
 	#	format filter {
