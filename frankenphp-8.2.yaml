@@ -1,7 +1,7 @@
 package:
   name: frankenphp-8.2
   version: 1.2.5
-  epoch: 2
+  epoch: 3
   description: "FrankenPHP"
   copyright:
     - license: MIT
@@ -71,7 +71,8 @@ pipeline:
         --with github.com/caddyserver/caddy/v2=/usr/src/caddy \
         --with github.com/dunglas/caddy-cbrotli \
         --with github.com/dunglas/mercure/caddy \
-        --with github.com/dunglas/vulcain/caddy
+        --with github.com/dunglas/vulcain/caddy \
+        --with github.com/caddyserver/cache-handler
 
   - uses: strip
 
