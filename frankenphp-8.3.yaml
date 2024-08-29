@@ -1,7 +1,7 @@
 package:
   name: frankenphp-8.3
   version: 1.2.5
-  epoch: 2
+  epoch: 3
   description: "FrankenPHP"
   copyright:
     - license: MIT
