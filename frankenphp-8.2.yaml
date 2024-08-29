@@ -1,7 +1,7 @@
 package:
   name: frankenphp-8.2
   version: 1.2.5
-  epoch: 0
+  epoch: 1
   description: "FrankenPHP"
   copyright:
     - license: MIT
@@ -56,9 +56,10 @@ pipeline:
 
   - name: Build
     runs: |
-      export CGO_CFLAGS=$(php-config --includes)
+      # see https://github.com/dunglas/frankenphp/blob/main/Dockerfile#L90C17-L90C58
+      export CGO_CFLAGS="-DFRANKENPHP_VERSION=${{package.version}} $(php-config --includes)"
       export CGO_LDFLAGS="$(php-config --ldflags) $(php-config --libs)"
-      export XCADDY_GO_BUILD_FLAGS="-ldflags '-w -s'"
+      export XCADDY_GO_BUILD_FLAGS="-ldflags '-w -s -X \"github.com/caddyserver/caddy/v2.CustomVersion=FrankenPHP ${{ package.version }} Caddy\"'"
       export CGO_ENABLED=1
 
       mkdir -p ${{targets.destdir}}/usr/bin/

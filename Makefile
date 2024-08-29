@@ -12,7 +12,6 @@ build:
 		-k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
 		--signing-key melange.rsa \
 		--arch host
-	melange sign-index packages/x86_64/APKINDEX.tar.gz --signing-key melange.rsa
 
 test:
 	echo "https://packages.wolfi.dev/os" > repositories
