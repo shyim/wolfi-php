@@ -15,6 +15,7 @@ package:
 environment:
   contents:
     packages:
+      - autoconf
       - bison
       - build-base
       - busybox
@@ -44,9 +45,11 @@ environment:
       - openssl-dev
       - patch
       - postgresql-dev
+      - re2c
       - readline-dev
       - sqlite-dev
       - unixodbc-dev
+      - wget
 
 pipeline:
   - uses: fetch
