@@ -1,6 +1,6 @@
 package:
   name: php-8.2
-  version: 8.2.24
+  version: 8.2.25
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -58,7 +58,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://www.php.net/distributions/php-${{package.version}}.tar.gz
-      expected-sha256: 5d26441969279a594e404bb9f2e17b6f74bb10606fe05911e739137673ae6c4c
+      expected-sha256: 7fe7ba6e3e66cd0e61cfa95341e6aefc8790030a7867333f54aef5fb78aad18b
       extract: false
 
   - name: Prepare Build Folder
