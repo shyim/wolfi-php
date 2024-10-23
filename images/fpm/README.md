@@ -1,4 +1,4 @@
-# FPM only image
+# FPM-only image
 
 ## Image information
 
@@ -97,7 +97,7 @@ FROM ghcr.io/shyim/wolfi-php/fpm:8.3
 COPY custom.ini /etc/php/conf.d/zz-custom.ini
 ```
 
-for FPM you can do the same with the path `/etc/php/php-fpm.d/zz-custom.conf`:
+for FPM, you can do the same with the path `/etc/php/php-fpm.d/zz-custom.conf`:
 
 ```dockerfile
 FROM ghcr.io/shyim/wolfi-php/fpm:8.3
@@ -107,7 +107,7 @@ COPY custom.conf /etc/php/php-fpm.d/zz-custom.conf
 
 ## Running as non-root
 
-The image is running as root by default. You can just need to switch the USER in the Dockerfile:
+The image is running as root by default. You need to switch the USER in the Dockerfile:
 
 ```dockerfile
 USER www-data

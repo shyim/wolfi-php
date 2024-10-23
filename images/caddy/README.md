@@ -1,6 +1,6 @@
 # Caddy + PHP-FPM
 
-This image contains caddy and PHP-FPM in the same container. To run both processes in the same container, we use hivemind a Procfile compatible process manager.
+This image contains caddy and PHP-FPM in the same container. To run both processes in the same container, we use hivemind, a Procfile compatible process manager.
 
 ## Usage
 
@@ -28,9 +28,9 @@ As this image bases on [fpm](../fpm/), you can check out there how to configure 
 ## Caddy Configuration
 
 - `SERVER_NAME` - The server name for Caddy. Default is `:8000` - This controls also the listing port of Caddy, use `:8000` as example for port `8000`
-- `CADDY_GLOBAL_OPTIONS` - Allows to set global options for Caddy like: `debug`
-- `CADDY_EXTRA_CONFIG` - Allows to set extra Caddy configuration like add new virtual host: `foo.com { root /app/public }`
-- `CADDY_SERVER_EXTRA_DIRECTIVES` - Allows to set extra Caddy configuration for the default virtual host. [See here for all options](https://caddyserver.com/docs/caddyfile/directives)
+- `CADDY_GLOBAL_OPTIONS` - Allows setting global options for Caddy like: `debug`
+- `CADDY_EXTRA_CONFIG` - Allows setting extra Caddy configuration like add new virtual host: `foo.com { root /app/public }`
+- `CADDY_SERVER_EXTRA_DIRECTIVES` - Allows setting extra Caddy configuration for the default virtual host. [See here for all options](https://caddyserver.com/docs/caddyfile/directives)
 
 ## Overwrite Caddy Configuration
 
