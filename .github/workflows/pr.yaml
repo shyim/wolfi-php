@@ -48,5 +48,7 @@ jobs:
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
                         -r https://wolfi.shyim.me \
                         -k https://wolfi.shyim.me/php-signing.rsa.pub \
+                        --git-repo-url=https://github.com/shyim/wolfi.php \
+                        --git-commit=${{ github.sha }} \
                         $file
                 done
