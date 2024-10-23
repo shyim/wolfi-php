@@ -31,10 +31,10 @@ docker run \
 ## Available environment variables
 
 - `SERVER_NAME` - The server name for Caddy. Default is `localhost` - This controls also the listing port of Caddy, use `:8000` as example for port `8000`
-- `FRANKENPHP_CONFIG` - Allows to set configuration for FrankenPHP specific like: `worker ./public/index.php`
-- `CADDY_GLOBAL_OPTIONS` - Allows to set global options for Caddy like: `debug`
-- `CADDY_EXTRA_CONFIG` - Allows to set extra Caddy configuration like add new virtual host: `foo.com { root /app/public }`
-- `CADDY_SERVER_EXTRA_DIRECTIVES` - Allows to set extra Caddy configuration for the default virtual host. [See here for all options](https://caddyserver.com/docs/caddyfile/directives)
+- `FRANKENPHP_CONFIG` - Allows setting configuration for FrankenPHP specific like: `worker ./public/index.php`
+- `CADDY_GLOBAL_OPTIONS` - Allows setting global options for Caddy like: `debug`
+- `CADDY_EXTRA_CONFIG` - Allows setting extra Caddy configuration like add new virtual host: `foo.com { root /app/public }`
+- `CADDY_SERVER_EXTRA_DIRECTIVES` - Allows setting extra Caddy configuration for the default virtual host. [See here for all options](https://caddyserver.com/docs/caddyfile/directives)
 
 ## Rootless
 

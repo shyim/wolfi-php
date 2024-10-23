@@ -1,6 +1,6 @@
 # Nginx + PHP-FPM
 
-This image contains Nginx and PHP-FPM in the same container. To run both processes in the same container, we use hivemind a Procfile compatible process manager.
+This image contains Nginx and PHP-FPM in the same container. To run both processes in the same container, we use hivemind, a Procfile compatible process manager.
 
 ## Usage
 
