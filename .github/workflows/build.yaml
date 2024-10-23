@@ -88,6 +88,8 @@ jobs:
                         -r https://wolfi.shyim.me \
                         -k https://wolfi.shyim.me/php-signing.rsa.pub \
                         --signing-key php-signing.rsa \
+                        --git-repo-url=https://github.com/shyim/wolfi.php \
+                        --git-commit=${{ github.sha }} \
                         $file
                 done
 

@@ -63,6 +63,8 @@ jobs:
                     melange build \
                         --arch ${{ matrix.arch }} \
                         --generate-index=false \
+                        --git-repo-url=https://github.com/shyim/wolfi.php \
+                        --git-commit=${{ github.sha }} \
                         -r https://packages.wolfi.dev/os \
                         -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
                         -r https://wolfi.shyim.me \
