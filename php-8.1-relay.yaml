@@ -48,4 +48,4 @@ subpackages:
 update:
   enabled: true
   release-monitor:
-    identifier: 371915
+    identifier: 375123
