@@ -28,7 +28,6 @@ LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.vendor="Shyim"
 
 WORKDIR /app
-EXPOSE 8000
     
 ENTRYPOINT [ "/usr/bin/frankenphp", "run" ]
 CMD [ "--config", "/etc/caddy/Caddyfile" ]
