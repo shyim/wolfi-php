@@ -45,4 +45,3 @@ update:
   enabled: true
   github:
     identifier: e-dant/watcher
-    use-tag: true
