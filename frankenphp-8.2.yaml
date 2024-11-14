@@ -1,12 +1,13 @@
 package:
   name: frankenphp-8.2
-  version: 1.2.5
-  epoch: 3
+  version: 1.3.0
+  epoch: 0
   description: "FrankenPHP"
   copyright:
     - license: MIT
   dependencies:
     runtime:
+      - libwatcher-c
       - php-frankenphp-8.2
 
 environment:
@@ -18,6 +19,7 @@ environment:
       - busybox
       - caddy-src
       - go
+      - libwatcher-c-dev
       - libxml2-dev
       - php-frankenphp-8.2
       - php-frankenphp-8.2-dev
@@ -52,7 +54,7 @@ pipeline:
     with:
       repository: https://github.com/dunglas/frankenphp
       tag: "v${{package.version}}"
-      expected-commit: dcf190ebcb5817fad38a7e2a27991e28b4e240cf
+      expected-commit: 102b4d1ad0fe5389ba51c949f8ee5e9cf5167d2d
 
   - name: Build
     runs: |
