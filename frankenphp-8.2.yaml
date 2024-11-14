@@ -7,6 +7,7 @@ package:
     - license: MIT
   dependencies:
     runtime:
+      - libwatcher-c
       - php-frankenphp-8.2
 
 environment:
@@ -18,6 +19,7 @@ environment:
       - busybox
       - caddy-src
       - go
+      - libwatcher-c-dev
       - libxml2-dev
       - php-frankenphp-8.2
       - php-frankenphp-8.2-dev
