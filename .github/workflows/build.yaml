@@ -80,6 +80,10 @@ jobs:
                         continue
                     fi
 
+                    packageName=${file%.yaml}
+
+                    mkdir -p "${packageName}"
+
                     melange build \
                         --arch ${{ matrix.arch }} \
                         --generate-index=false \
@@ -90,6 +94,7 @@ jobs:
                         --signing-key php-signing.rsa \
                         --git-repo-url=https://github.com/shyim/wolfi.php \
                         --git-commit=${{ github.sha }} \
+                        --source-dir=./${packageName} \
                         $file
                 done
 
