@@ -1,6 +1,6 @@
 package:
   name: bash-completion
-  version: 2.14.0
+  version: 2.15.0
   epoch: 0
   description: Programmable completion functions for bash
   copyright:
@@ -29,7 +29,7 @@ pipeline:
     with:
       repository: https://github.com/scop/bash-completion
       tag: ${{ package.version }}
-      expected-commit: "0543d1a28ce3d36741675c7ef6da7c2286288f3e"
+      expected-commit: "d4a1c565dfcafc21a6c9cfe56966a531a42b6219"
 
   - runs: |
       autoreconf -i
