@@ -37,18 +37,12 @@ jobs:
             
             - name: Build all packages
               run: |
+                make init
                 for file in ${{ steps.changes.outputs.melange_all_changed_files }}; do
                     if [[ $file == ".yam.yaml" ]]; then
                         continue
                     fi
 
-                    melange build \
-                        --arch x86_64 \
-                        -r https://packages.wolfi.dev/os \
-                        -k https://packages.wolfi.dev/os/wolfi-signing.rsa.pub \
-                        -r https://wolfi.shyim.me \
-                        -k https://wolfi.shyim.me/php-signing.rsa.pub \
-                        --git-repo-url=https://github.com/shyim/wolfi.php \
-                        --git-commit=${{ github.sha }} \
-                        $file
+                    make package/"${file%.yaml}"
+                    make test/"${file%.yaml}"
                 done
