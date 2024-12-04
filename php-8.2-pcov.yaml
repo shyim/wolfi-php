@@ -1,7 +1,7 @@
 package:
   name: php-8.2-pcov
-  version: 1.0.11
-  epoch: 1
+  version: 1.0.12
+  epoch: 0
   description: "CodeCoverage compatible driver for PHP"
   copyright:
     - license: PHP-3.01
@@ -24,7 +24,7 @@ pipeline:
     with:
       repository: https://github.com/krakjoe/pcov.git
       tag: v${{package.version}}
-      expected-commit: a497e8318801bdc515b468abd15a320c04387c66
+      expected-commit: e16c08e14da0a74fd19e2e14960382bc8f28292d
 
   - name: Prepare build
     runs: phpize
