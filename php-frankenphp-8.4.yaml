@@ -1,7 +1,7 @@
 package:
   name: php-frankenphp-8.4
   version: 8.4.1
-  epoch: 0
+  epoch: 1
   description: "the PHP programming language"
   copyright:
     - license: PHP-3.01
@@ -11,6 +11,12 @@ package:
     runtime:
       - ${{package.name}}-config
       - libxml2
+
+var-transforms:
+  - from: ${{package.name}}
+    match: ^php-frankenphp-(\d\.\d+)
+    replace: $1
+    to: phpMM
 
 environment:
   contents:
@@ -144,6 +150,8 @@ pipeline:
     runs: |
       INSTALL_ROOT=${{targets.destdir}} DESTDIR=${{targets.destdir}} make install
       mkdir -p "${{targets.destdir}}/bin" && ln -s /usr/bin/php "${{targets.destdir}}/bin/php"
+      # Fix libphp.so location, so frankenphp can find it
+      mv "${{targets.destdir}}/usr/lib/php/libphp.so" "${{targets.destdir}}/usr/lib/libphp.so"
 
   - uses: strip
 
@@ -231,12 +239,21 @@ subpackages:
       - runs: |
           export CONF_DIR="${{targets.subpkgdir}}/etc/php/conf.d"
           mkdir -p $CONF_DIR
+          order=10
           prefix=
           [ "${{range.key}}" != "opcache" ] || prefix="zend_"
-          echo "${prefix}extension=${{range.key}}.so" > $CONF_DIR/"${{range.key}}.ini"
+          # Determine load order based on number of dependencies found in config.w32
+          [ -f "ext/${{range.key}}/config.w32" ] && \
+            deps=`sed -En "s/.*ADD_EXTENSION_DEP\('${{range.key}}', ([^)]+)\).*/\1/p" "ext/${{range.key}}/config.w32" \
+                | tr -d "'," | tr ' ' '\n' \
+                | sort -u \
+                | while read -r dep; do
+                  [ "$dep" = "true" ] || echo $dep
+                done | wc -w`
+          echo "${prefix}extension=${{range.key}}.so" > $CONF_DIR/"$((order+order*deps))-${{range.key}}.ini"
 
   - name: ${{package.name}}-dev
-    description: PHP 8.4 development headers
+    description: PHP ${{vars.phpMM}} development headers
     dependencies:
       provides:
         - php-dev=${{package.full-version}}
@@ -245,11 +262,9 @@ subpackages:
       - runs: |
           mkdir -p ${{targets.subpkgdir}}/usr/bin
           mv ${{targets.destdir}}/usr/bin/phpize ${{targets.subpkgdir}}/usr/bin/
-          mkdir -p ${{targets.subpkgdir}}/usr/lib/php
-          mv ${{targets.destdir}}/usr/lib/php/* ${{targets.subpkgdir}}/usr/lib/php
 
   - name: ${{package.name}}-doc
-    description: PHP 8.4 documentation
+    description: PHP ${{vars.phpMM}} documentation
     dependencies:
       provides:
         - php-doc=${{package.full-version}}
@@ -257,7 +272,7 @@ subpackages:
       - uses: split/manpages
 
   - name: "${{package.name}}-cgi"
-    description: PHP 8.4 CGI
+    description: PHP ${{vars.phpMM}} CGI
     dependencies:
       provides:
         - php-cgi=${{package.full-version}}
@@ -277,7 +292,7 @@ subpackages:
           mv ${{targets.destdir}}/usr/bin/phpdbg ${{targets.subpkgdir}}/usr/bin/
 
   - name: "${{package.name}}-fpm"
-    description: PHP 8.4 FastCGI Process Manager (FPM)
+    description: PHP ${{vars.phpMM}} FastCGI Process Manager (FPM)
     dependencies:
       runtime:
         - "${{package.name}}-fpm-config"
@@ -289,7 +304,7 @@ subpackages:
           mv ${{targets.destdir}}/usr/sbin/php-fpm ${{targets.subpkgdir}}/usr/sbin/
 
   - name: ${{package.name}}-fpm-config
-    description: PHP 8.4 FastCGI Process Manager (FPM) configuration
+    description: PHP ${{vars.phpMM}} FastCGI Process Manager (FPM) configuration
     dependencies:
       provides:
         - php-fpm-config=${{package.full-version}}
@@ -326,6 +341,7 @@ test:
   pipeline:
     - runs: |
         php --version
+        php --help
     - runs: |
         cat <<'EOF' >> /tmp/hello.php
         <?php
