@@ -45,3 +45,6 @@ update:
   enabled: true
   github:
     identifier: e-dant/watcher
+    strip-prefix: release/
+    tag-filter: release/
+    use-tag: true
