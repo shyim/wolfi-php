@@ -1,0 +1,49 @@
+package:
+  name: php-frankenphp-8.4-protobuf
+  version: 4.29.1
+  epoch: 0
+  description: "Protocol Buffers - Google's data interchange format"
+  copyright:
+    - license: BSD-3-Clause
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-frankenphp-8.4
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - build-base
+      - busybox
+      - php-frankenphp-8.4
+      - php-frankenphp-8.4-dev
+      - protobuf-dev
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://pecl.php.net/get/protobuf-${{package.version}}.tgz
+      expected-sha512: e2ddb0b98df613b65ed88815572b13932c2c5b31ed4d2a04257284d1e59b86ccee11c4844bdd5f19f4b42b742a71d6ddef59f1ffffdb871ab4e22bf74e447e9c
+
+  - name: Prepare build
+    runs: phpize
+
+  - name: Build
+    runs: ./configure
+
+  - name: Make install
+    runs: |
+      INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=protobuf.so" > "${{targets.subpkgdir}}/etc/php/conf.d/protobuf.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 141406
