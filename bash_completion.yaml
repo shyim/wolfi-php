@@ -29,7 +29,7 @@ pipeline:
     with:
       repository: https://github.com/scop/bash-completion
       tag: ${{ package.version }}
-      expected-commit: "d4a1c565dfcafc21a6c9cfe56966a531a42b6219"
+      expected-commit: 79d225bad8939a3833314b5af93509131c03f2f8
 
   - runs: |
       autoreconf -i
