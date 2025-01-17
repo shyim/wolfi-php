@@ -1,6 +1,6 @@
 package:
   name: bun-bin
-  version: 1.1.44
+  version: 1.1.45
   epoch: 0
   description: "Bun binary distribution"
   copyright:
