@@ -1,6 +1,6 @@
 package:
   name: frankenphp-8.4
-  version: 1.4.1
+  version: 1.4.2
   epoch: 0
   description: "FrankenPHP"
   copyright:
@@ -54,7 +54,7 @@ pipeline:
     with:
       repository: https://github.com/dunglas/frankenphp
       tag: "v${{package.version}}"
-      expected-commit: d712aed2a53ec0a9b55a5b665ce322d227c7a5ed
+      expected-commit: 941f218a791357670218cc9d0458be7f4e1342bd
 
   - name: Build
     runs: |
