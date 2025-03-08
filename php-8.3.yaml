@@ -1,7 +1,7 @@
 package:
   name: php-8.3
   version: 8.3.17
-  epoch: 0
+  epoch: 1
   description: "the PHP programming language"
   copyright:
     - license: PHP-3.01
@@ -11,6 +11,8 @@ package:
     runtime:
       - ${{package.name}}-config
       - libxml2
+      - merged-bin
+      - wolfi-baselayout
 
 environment:
   contents:
@@ -139,7 +141,6 @@ pipeline:
   - name: Make Install
     runs: |
       INSTALL_ROOT=${{targets.destdir}} DESTDIR=${{targets.destdir}} make install
-      mkdir -p "${{targets.destdir}}/bin" && ln -s /usr/bin/php "${{targets.destdir}}/bin/php"
 
   - uses: strip
 
@@ -208,6 +209,8 @@ subpackages:
     dependencies:
       runtime:
         - "${{package.name}}-${{range.key}}-config"
+        - merged-bin
+        - wolfi-baselayout
       provides:
         - php-${{range.key}}=${{package.full-version}}
     pipeline:
@@ -236,6 +239,9 @@ subpackages:
     dependencies:
       provides:
         - php-dev=${{package.full-version}}
+      runtime:
+        - merged-bin
+        - wolfi-baselayout
     pipeline:
       - uses: split/dev
       - runs: |
@@ -256,6 +262,9 @@ subpackages:
     dependencies:
       provides:
         - php-cgi=${{package.full-version}}
+      runtime:
+        - merged-bin
+        - wolfi-baselayout
     pipeline:
       - runs: |
           mkdir -p ${{targets.subpkgdir}}/usr/bin
@@ -266,6 +275,9 @@ subpackages:
     dependencies:
       provides:
         - php-dbg=${{package.full-version}}
+      runtime:
+        - merged-bin
+        - wolfi-baselayout
     pipeline:
       - runs: |
           mkdir -p ${{targets.subpkgdir}}/usr/bin
@@ -276,6 +288,8 @@ subpackages:
     dependencies:
       runtime:
         - "${{package.name}}-fpm-config"
+        - merged-bin
+        - wolfi-baselayout
       provides:
         - php-fpm=${{package.full-version}}
     pipeline:
