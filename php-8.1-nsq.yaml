@@ -45,4 +45,3 @@ update:
   enabled: true
   github:
     identifier: yunnian/php-nsq
-    use-tag: true
