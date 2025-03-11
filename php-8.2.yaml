@@ -65,6 +65,7 @@ pipeline:
 
   - name: Configure
     runs: |
+      ./buildconf
       EXTENSION_DIR=/usr/lib/php/modules ./configure \
         --prefix=/usr \
         --libdir=/usr/lib/php \
