@@ -58,10 +58,10 @@ environment:
 
 pipeline:
   - uses: git-checkout
-     with:
-       repository: https://github.com/php/php-src
-       tag: php-${{package.version}}
-       expected-commit: 997ec633e4d024e50315e722c89733f77a2248f8
+    with:
+      repository: https://github.com/php/php-src
+      tag: php-${{package.version}}
+      expected-commit: 997ec633e4d024e50315e722c89733f77a2248f8
 
   - name: Configure
     runs: |
