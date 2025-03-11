@@ -137,12 +137,9 @@ pipeline:
         --with-ffi=shared
 
   - uses: autoconf/make
-    with:
-      dir: $HOME/php-${{package.version}}
 
   - name: Make Install
     runs: |
-      cd $HOME/php-${{package.version}}
       INSTALL_ROOT=${{targets.destdir}} DESTDIR=${{targets.destdir}} make install
 
   - uses: strip
