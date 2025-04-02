@@ -16,10 +16,10 @@ COPY . /var/www/html
 
 ```shell
 docker build -t my-image .
-docker run -p 8080:8080 my-image
+docker run -p 8000:8000 my-image
 ```
 
-You can run it for testing purposes also directly, `docker run --rm -p 8080:8080 ghcr.io/shyim/wolfi-php/caddy:8.3` and you should see at `http://localhost:8000` the php info page.
+You can run it for testing purposes also directly, `docker run --rm -p 8000:8000 ghcr.io/shyim/wolfi-php/caddy:8.3` and you should see at `http://localhost:8000` the php info page.
 
 ## PHP Extensions / PHP Configuration
 
