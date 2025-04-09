@@ -4,7 +4,8 @@ FROM ghcr.io/shyim/wolfi-php/fpm:${PHP_VERSION}
 ENV PHP_FPM_LISTEN=/tmp/php-fpm.sock \
     PHP_FPM_ACCESS_LOG=/dev/null \
     SERVER_NAME=:8000 \
-    CADDY_SERVER_EXTRA_DIRECTIVES=log
+    CADDY_SERVER_EXTRA_DIRECTIVES=log \
+    HIVEMIND_SKIP_ENV=1
 
 RUN <<EOF
 set -eo pipefail
