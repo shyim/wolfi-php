@@ -1,6 +1,6 @@
 package:
   name: php-8.4-nsq
-  version: v3.9.0
+  version: 3.9.0
   epoch: 0
   description: "a php nsq client write by c extension,the fastest nsq client"
   copyright:
