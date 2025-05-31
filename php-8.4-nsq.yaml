@@ -23,7 +23,7 @@ pipeline:
   - uses: git-checkout
     with:
       repository: https://github.com/yunnian/php-nsq.git
-      tag: ${{package.version}}
+      tag: v${{package.version}}
       expected-commit: 86ad35f956eba371b4eac4998409203bcbbf3cee
 
   - name: Prepare build
@@ -45,3 +45,4 @@ update:
   enabled: true
   github:
     identifier: yunnian/php-nsq
+    strip-prefix: v
