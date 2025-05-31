@@ -1,6 +1,6 @@
 package:
   name: php-8.2-nsq
-  version: v3.9.0
+  version: 3.9.0
   epoch: 0
   description: "a php nsq client write by c extension,the fastest nsq client"
   copyright:
@@ -23,7 +23,7 @@ pipeline:
   - uses: git-checkout
     with:
       repository: https://github.com/yunnian/php-nsq.git
-      tag: ${{package.version}}
+      tag: v${{package.version}}
       expected-commit: 86ad35f956eba371b4eac4998409203bcbbf3cee
 
   - name: Prepare build
@@ -45,3 +45,4 @@ update:
   enabled: true
   github:
     identifier: yunnian/php-nsq
+    strip-prefix: v
