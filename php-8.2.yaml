@@ -1,7 +1,7 @@
 package:
   name: php-8.2
-  version: 8.2.28
-  epoch: 1
+  version: "8.2.28"
+  epoch: 45
   description: "the PHP programming language"
   copyright:
     - license: PHP-3.01
@@ -19,6 +19,8 @@ environment:
   contents:
     packages:
       - aom-dev
+      - apache2-dev
+      - apache2-utils
       - autoconf
       - bison
       - build-base
@@ -50,6 +52,7 @@ environment:
       - oniguruma-dev
       - openldap-dev
       - openssl-dev
+      - patch
       - postgresql-dev
       - re2c
       - readline-dev
@@ -58,20 +61,15 @@ environment:
       - wget
 
 pipeline:
-  - uses: fetch
+  - uses: git-checkout
     with:
-      uri: https://www.php.net/distributions/php-${{package.version}}.tar.gz
-      expected-sha256: 3318300888de5023720cc84efad5e005e53f30b5f0072fae65a750dabcaf6ec3
-      extract: false
-
-  - name: Prepare Build Folder
-    runs: |
-      mv php-${{package.version}}.tar.gz $HOME
-      tar zxf $HOME/php-${{package.version}}.tar.gz
+      repository: https://github.com/php/php-src
+      tag: php-${{package.version}}
+      expected-commit: 997ec633e4d024e50315e722c89733f77a2248f8
 
   - name: Configure
     runs: |
-      cd $HOME/php-${{package.version}}
+      ./buildconf --force
       EXTENSION_DIR=/usr/lib/php/modules ./configure \
         --prefix=/usr \
         --libdir=/usr/lib/php \
@@ -141,16 +139,28 @@ pipeline:
         --enable-sysvsem=shared \
         --enable-sysvshm=shared \
         --enable-sysvmsg=shared \
-        --with-ffi=shared
+        --with-ffi=shared \
+        --with-apxs2=/usr/bin/apxs \
+        --enable-phpdbg=shared
 
   - uses: autoconf/make
-    with:
-      dir: $HOME/php-${{package.version}}
+
+  - name: Copy httpd.conf before install for apxs
+    runs: |
+      # httpd.conf needs to be in the /home/build/melange-out/php-<VERSION>/etc/apache2/ directory
+      # otherwise `make install` complains that it cannot find it.
+      mkdir -p ${{targets.destdir}}/etc/apache2
+      cp /etc/apache2/httpd.conf ${{targets.destdir}}/etc/apache2/httpd.conf
 
   - name: Make Install
     runs: |
-      cd $HOME/php-${{package.version}}
       INSTALL_ROOT=${{targets.destdir}} DESTDIR=${{targets.destdir}} make install
+
+  - name: Remove httpd.conf after install for apxs
+    runs: |
+      # After `make install` the httpd.conf file is not needed anymore,
+      # so remove it to avoid conflicts with the apache2 package, as it already provides.
+      rm -f ${{targets.destdir}}/etc/apache2/httpd.conf
 
   - uses: strip
 
@@ -188,10 +198,7 @@ data:
       dom: DOM
       pgsql: PostgreSQL
       posix: Posix
-      shmop: shmop
-      sysvmsg: sysvmsg
-      sysvsem: sysvsem
-      sysvshm: sysvshm
+      shmop: Shmop
       simplexml: SimpleXML
       mysqli: MySQLi
       xml: XML
@@ -202,16 +209,23 @@ data:
       odbc: UnixODBC
       ftp: FTP
       ffi: FFI
+      sysvsem: System V Semaphores
+      sysvshm: System V Shared Memory
+      sysvmsg: System V Messages
 
 subpackages:
   - name: ${{package.name}}-config
     dependencies:
       provides:
         - php-config=${{package.full-version}}
+      runtime:
+        - merged-bin
+        - merged-usrsbin
+        - wolfi-baselayout
     pipeline:
       - runs: |
           mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
-          mv $HOME/php-${{package.version}}/php.ini-production ${{targets.subpkgdir}}/etc/php/php.ini
+          mv php.ini-production ${{targets.subpkgdir}}/etc/php/php.ini
 
   - range: extensions
     name: "${{package.name}}-${{range.key}}"
@@ -245,9 +259,18 @@ subpackages:
       - runs: |
           export CONF_DIR="${{targets.subpkgdir}}/etc/php/conf.d"
           mkdir -p $CONF_DIR
+          order=10
           prefix=
           [ "${{range.key}}" != "opcache" ] || prefix="zend_"
-          echo "${prefix}extension=${{range.key}}.so" > $CONF_DIR/"${{range.key}}.ini"
+          # Determine load order based on number of dependencies found in config.w32
+          [ -f "ext/${{range.key}}/config.w32" ] && \
+            deps=`sed -En "s/.*ADD_EXTENSION_DEP\('${{range.key}}', ([^)]+)\).*/\1/p" "ext/${{range.key}}/config.w32" \
+                | tr -d "'," | tr ' ' '\n' \
+                | sort -u \
+                | while read -r dep; do
+                  [ "$dep" = "true" ] || echo $dep
+                done | wc -w`
+          echo "${prefix}extension=${{range.key}}.so" > $CONF_DIR/"$((order+order*deps))-${{range.key}}.ini"
 
   - name: ${{package.name}}-dev
     description: PHP 8.2 development headers
@@ -270,8 +293,36 @@ subpackages:
     dependencies:
       provides:
         - php-doc=${{package.full-version}}
+      runtime:
+        - merged-bin
+        - merged-usrsbin
+        - wolfi-baselayout
     pipeline:
       - uses: split/manpages
+
+  - name: "${{package.name}}-apache"
+    description: Apache SAPI for PHP ${{vars.phpMM}}
+    dependencies:
+      provides:
+        - php-apache=${{package.full-version}}
+      runtime:
+        - merged-bin
+        - merged-usrsbin
+        - wolfi-baselayout
+    pipeline:
+      - runs: |
+          mkdir -p ${{targets.subpkgdir}}/usr/lib/apache2/modules
+          mv /home/build/libs/libphp.so ${{targets.subpkgdir}}/usr/lib/apache2/modules/
+          install -Dm644 apache.conf ${{targets.subpkgdir}}/etc/apache2/extra/php_module.conf
+    test:
+      environment:
+        contents:
+          packages:
+            - ${{package.name}}
+            - apache2 # Ensure that we properly install the subpackage along with the main package and apache2
+            - apache2-compat
+      pipeline:
+        - runs: stat /usr/lib/apache2/modules/libphp.so
 
   - name: "${{package.name}}-cgi"
     description: PHP 8.2 CGI
@@ -358,7 +409,6 @@ test:
   pipeline:
     - runs: |
         php --version
-        php --help
     - runs: |
         cat <<'EOF' >> /tmp/hello.php
         <?php
