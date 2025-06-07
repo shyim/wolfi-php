@@ -1,3 +1,6 @@
 {
-    "files.insertFinalNewline": true
+    "files.insertFinalNewline": true,
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/chainguard-dev/melange/main/pkg/config/schema.json": "file:///Users/shyim/Developer/wolfi-php/*.yaml"
+    }
 }

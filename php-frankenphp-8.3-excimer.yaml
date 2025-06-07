@@ -53,3 +53,4 @@ update:
   github:
     identifier: wikimedia/mediawiki-php-excimer
     use-tag: true
+    tag-filter: "1"
