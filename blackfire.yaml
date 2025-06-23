@@ -1,6 +1,6 @@
 package:
   name: blackfire
-  version: 2.28.26
+  version: 2.28.27
   epoch: 0
   description: "Blackfire CLI"
   copyright:
@@ -20,13 +20,13 @@ pipeline:
     if: ${{build.arch}} == 'x86_64'
     with:
       uri: https://blackfire.io/api/v1/releases/cli/linux/x86_64
-      expected-sha512: 11e0822e8c46ff27565326ebf75d0021d66b13bf945b1a5f7048e5c0429618af297b916db5242067d70cadff1fd4d42a76bcee2ec10c89ec249aaee3dccebc28
+      expected-sha512: 99442b23238d31c3c6a8a525d071569b665251fd27903f8d9f118273cee0b7f7f9ec598e5ef4ab54e2bd31732e99a3b95576bb76d28e909f97f4d21745b76c78
 
   - uses: fetch
     if: ${{build.arch}} == 'aarch64'
     with:
       uri: https://blackfire.io/api/v1/releases/cli/linux/aarch64
-      expected-sha512: c826c75b570f61d56f2357f5c3c85f6ae6b0c744ef554e9bc55298c1d9140f2fe9ffec95fa97e5978fcaf2824ea3086111c0f5ab687f69b8f5f783bbe42c435e
+      expected-sha512: a5219047b77425a25e089dc2fd3bde5b45c1ea1d00b58cfe604e1a722a394b8a29cdb780d02cf9b2e85ce9faa92380199b9936e06f74b6a9cc3f182b81e14770
 
   - runs: |
       tar xfv ${{build.arch}}
