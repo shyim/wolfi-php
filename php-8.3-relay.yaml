@@ -1,6 +1,6 @@
 package:
   name: php-8.3-relay
-  version: 0.11.0
+  version: 0.11.1
   epoch: 0
   description: "Relay is a Redis™ client like PhpRedis and Predis, except two orders of magnitude faster"
   copyright:
@@ -24,13 +24,13 @@ pipeline:
     if: ${{build.arch}} == 'x86_64'
     with:
       uri: https://builds.r2.relay.so/v${{package.version}}/relay-v${{package.version}}-php8.3-debian-x86-64+libssl3.tar.gz
-      expected-sha512: eda1c4665e6670616ed73d14532a8da7b441ad178eb6483152b1654834b4b277af6bb43a8643417d0a2eafcfff8f5fc62832a0923190d84fa69efdcdae6263d4
+      expected-sha512: c5be397dcc8d42a9bf04f7a90aab31248e519ba517655190b91a61875091adf3b2147989d03c17b838f3a641ed67d7ebd04766a9f40aad3bf4a0db5e44cc798e
 
   - uses: fetch
     if: ${{build.arch}} == 'aarch64'
     with:
       uri: https://builds.r2.relay.so/v${{package.version}}/relay-v${{package.version}}-php8.3-debian-aarch64+libssl3.tar.gz
-      expected-sha512: 8734f962092ec3e9199b0466bdabd9240515017bedf5e20a481892d5414b3e020f482359c03b43b82854f03019d37d00da900958a8dcc238b062612b862f5845
+      expected-sha512: d75e0645375be1060415d1c353644d05b6a97d82f109499ea67fdf044d2d373bbe19dff0cc659298ca281e09fd0bb128504f12fc768e54a7bc79fd8e52a0a16b
 
   - name: Copy
     runs: |
