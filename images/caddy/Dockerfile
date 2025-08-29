@@ -10,7 +10,7 @@ ENV PHP_FPM_LISTEN=/tmp/php-fpm.sock \
 RUN <<EOF
 set -eo pipefail
 apk add --no-cache \
-    hivemind \
+    hivemind-wolfiphp \
     caddy
 EOF
 
