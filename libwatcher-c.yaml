@@ -1,6 +1,6 @@
 package:
   name: libwatcher-c
-  version: 0.13.6
+  version: 0.13.7
   epoch: 0
   description: "Filesystem watcher. Works anywhere. Simple, efficient and friendly"
   copyright:
@@ -18,7 +18,7 @@ pipeline:
     with:
       repository: https://github.com/e-dant/watcher
       tag: "${{package.version}}"
-      expected-commit: b03bdcfc11549df595b77239cefe2643943a3e2f
+      expected-commit: 9ee12e47f2b27bd18dfe50bcd73e9c3004bf2146
 
   - name: Build
     runs: |
