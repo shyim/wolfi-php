@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.3-xdebug
-  version: 3.4.5
+  version: 3.4.6
   epoch: 0
   description: "Step Debugger for PHP"
   copyright:
@@ -24,7 +24,7 @@ pipeline:
     with:
       repository: https://github.com/xdebug/xdebug
       tag: "${{package.version}}"
-      expected-commit: 4085f1421d54aa60c40fe334f5c7a118a045200f
+      expected-commit: a6fc5d7d5aaf43c09f8e44981b310b592d0c2cac
 
   - name: Prepare build
     runs: phpize
