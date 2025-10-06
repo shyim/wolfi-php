@@ -23,7 +23,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://pecl.php.net/get/apfd-${{package.version}}.tgz
-      expected-sha256: 90832d2a64cb347e23be5b4e1a503caa5c49c3f99c23e9e8ee1d3485c17a9cb7
+      expected-sha256: de222ad4231f410d71b8232b01e3e22c9cc27a68e6d272f153b230f2b048995f
 
   - name: Prepare build
     runs: phpize
