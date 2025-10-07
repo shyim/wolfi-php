@@ -46,7 +46,7 @@ subpackages:
 update:
   enabled: true
   release-monitor:
-    identifier: 9045
+    identifier: 6204
 
 test:
   pipeline:
