@@ -1,0 +1,54 @@
+package:
+  name: php-8.4-apfd
+  version: 1.0.3
+  epoch: 0
+  description: "Always Populate Form Data - Improved handling of multipart/form-data requests"
+  copyright:
+    - license: BSD-2-Clause
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-8.4
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - build-base
+      - busybox
+      - php-8.4
+      - php-8.4-dev
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://pecl.php.net/get/apfd-${{package.version}}.tgz
+      expected-sha256: de222ad4231f410d71b8232b01e3e22c9cc27a68e6d272f153b230f2b048995f
+
+  - name: Prepare build
+    runs: phpize
+
+  - name: Configure
+    runs: ./configure
+
+  - uses: autoconf/make
+
+  - name: Make install
+    runs: INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=apfd.so" > "${{targets.subpkgdir}}/etc/php/conf.d/apfd.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 9045
+
+test:
+  pipeline:
+    - runs: |
+        php -m | grep apfd
