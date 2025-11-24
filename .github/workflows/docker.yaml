@@ -22,7 +22,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6.0.0
 
             - name: Install Cosign
               uses: sigstore/cosign-installer@v3
@@ -57,7 +57,7 @@ jobs:
             - 8.4
       steps:
           - name: Checkout
-            uses: actions/checkout@v5
+            uses: actions/checkout@v6.0.0
 
           - name: Install Cosign
             uses: sigstore/cosign-installer@v3
@@ -93,7 +93,7 @@ jobs:
             - 8.4
       steps:
           - name: Checkout
-            uses: actions/checkout@v5
+            uses: actions/checkout@v6.0.0
 
           - name: Install Cosign
             uses: sigstore/cosign-installer@v3
@@ -130,7 +130,7 @@ jobs:
             - 8.4
       steps:
           - name: Checkout
-            uses: actions/checkout@v5
+            uses: actions/checkout@v6.0.0
 
           - name: Install Cosign
             uses: sigstore/cosign-installer@v3
@@ -167,7 +167,7 @@ jobs:
             - 8.4
       steps:
           - name: Checkout
-            uses: actions/checkout@v5
+            uses: actions/checkout@v6.0.0
 
           - name: Install Cosign
             uses: sigstore/cosign-installer@v3
