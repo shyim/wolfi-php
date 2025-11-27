@@ -130,7 +130,6 @@ pipeline:
         --with-gmp=shared  \
         --enable-intl=shared  \
         --with-ldap=shared  \
-        --enable-opcache=shared  \
         --enable-soap=shared  \
         --with-xsl=shared \
         --with-zlib \
@@ -180,7 +179,6 @@ data:
       gettext: GetText
       intl: Internationalization
       mbstring: Multibyte String Functions
-      opcache: Opcache
       pcntl: pcntl
       pdo: PHP Data Objects
       phar: PHP Archive
