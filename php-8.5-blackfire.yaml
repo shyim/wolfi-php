@@ -1,0 +1,55 @@
+package:
+  name: php-8.5-blackfire
+  version: 1.92.51
+  epoch: 0
+  description: "Blackfire PHP Probe"
+  copyright:
+    - license: PROPRIETARY
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-8.5
+
+environment:
+  contents:
+    packages:
+      - busybox
+
+pipeline:
+  - uses: fetch
+    if: ${{build.arch}} == 'x86_64'
+    with:
+      uri: https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_amd64-php-85.so
+      expected-sha512: 222dbc45b2106b85cdd157cd8e213aae32877bb9cbdd47083ab446c439660ed5d6ed3c679d6c8d40ec2713fa755d33104ce402cb9ab0afbc0fe3622bf73263a3
+      extract: false
+
+  - uses: fetch
+    if: ${{build.arch}} == 'aarch64'
+    with:
+      uri: https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_arm64-php-85.so
+      expected-sha512: 1f12920019ee2dcf8700264acb526cd2b6035df5302cacf01411eb33fa41919c029317711870cd76c1bc915ba170d89fe12596316094754d06f7026cd09d155f
+      extract: false
+
+  - name: Copy
+    if: ${{build.arch}} == 'x86_64'
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp blackfire-php-linux_amd64-php-85.so ${{targets.destdir}}/usr/lib/php/modules/blackfire.so
+
+  - name: Copy
+    if: ${{build.arch}} == 'aarch64'
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp blackfire-php-linux_arm64-php-85.so ${{targets.destdir}}/usr/lib/php/modules/blackfire.so
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=blackfire.so" > "${{targets.subpkgdir}}/etc/php/conf.d/blackfire.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 371867
