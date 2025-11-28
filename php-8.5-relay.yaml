@@ -1,0 +1,51 @@
+package:
+  name: php-8.5-relay
+  version: 0.12.1
+  epoch: 0
+  description: "Relay is a Redis™ client like PhpRedis and Predis, except two orders of magnitude faster"
+  copyright:
+    - license: PROPRIETARY
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - liblz4-1
+      - libzstd1
+      - php-8.5
+      - php-8.5-igbinary
+      - php-8.5-msgpack
+
+environment:
+  contents:
+    packages:
+      - busybox
+
+pipeline:
+  - uses: fetch
+    if: ${{build.arch}} == 'x86_64'
+    with:
+      uri: https://builds.r2.relay.so/v${{package.version}}/relay-v${{package.version}}-php8.5-debian-x86-64+libssl3.tar.gz
+      expected-sha512: e6149065d432e8ee971832316367723750835dea63787c7ad340a0ec0963eefab9097be631d6e06ddea861e074a5fd9c6e5544cccea350ae66cd30bac24a9ce7
+
+  - uses: fetch
+    if: ${{build.arch}} == 'aarch64'
+    with:
+      uri: https://builds.r2.relay.so/v${{package.version}}/relay-v${{package.version}}-php8.5-debian-aarch64+libssl3.tar.gz
+      expected-sha512: 0761781a384057fc4ebdccb18b1f742a642e7fa1ddea16969deae9a6a3672be13d274a23c8ce9d368d4b5d751f25e19a0c31337ff8832458bf264df86c828831
+
+  - name: Copy
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp relay-pkg.so ${{targets.destdir}}/usr/lib/php/modules/relay.so
+      sed -i "s/00000000-0000-0000-0000-000000000000/$(cat /proc/sys/kernel/random/uuid)/" ${{targets.destdir}}/usr/lib/php/modules/relay.so
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=relay.so" > "${{targets.subpkgdir}}/etc/php/conf.d/relay.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 375123
