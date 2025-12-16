@@ -16,9 +16,9 @@ environment:
       - autoconf
       - build-base
       - busybox
+      - pcre2-dev 
       - php-8.5
       - php-8.5-dev
-      - pcre2-dev 
 
 pipeline:
   - uses: git-checkout
