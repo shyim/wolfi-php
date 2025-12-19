@@ -1,0 +1,55 @@
+package:
+  name: php-frankenphp-8.5-uv
+  version: 0.3.0
+  epoch: 0
+  description: "Interface to libuv for php"
+  copyright:
+    - license: PHP-3.01
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-frankenphp-8.5
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - build-base
+      - busybox
+      - libuv-dev
+      - php-frankenphp-8.5
+      - php-frankenphp-8.5-dev
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/amphp/ext-uv
+      tag: "v${{package.version}}"
+      expected-commit: 1d18f5d1d12e77c24b6b0b9d69194b1051efae66
+
+  - name: Prepare build
+    runs: phpize
+
+  - name: Build
+    runs: |
+      set -x
+      ./configure
+
+  - name: Make install
+    runs: |
+      INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=uv.so" > "${{targets.subpkgdir}}/etc/php/conf.d/uv.ini"
+
+update:
+  enabled: true
+  github:
+    identifier: amphp/ext-uv
+    strip-prefix: v
+    tag-filter: v
+    use-tag: true

@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.5
-  version: 8.5.1
+  version: 8.5.16
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -68,7 +68,7 @@ pipeline:
     with:
       repository: https://github.com/php/php-src
       tag: php-${{package.version}}
-      expected-commit: 3f6a5c8a76764dcea9872fee5beed8fa7d1d5bcd
+      expected-commit: 2890cbbc4940f382f2f781d08f12c127b1a06a26
 
   - name: Configure
     runs: |
@@ -130,6 +130,7 @@ pipeline:
         --with-gmp=shared  \
         --enable-intl=shared  \
         --with-ldap=shared  \
+        --enable-opcache=shared  \
         --enable-soap=shared  \
         --with-xsl=shared \
         --with-zlib \
@@ -179,6 +180,7 @@ data:
       gettext: GetText
       intl: Internationalization
       mbstring: Multibyte String Functions
+      opcache: Opcache
       pcntl: pcntl
       pdo: PHP Data Objects
       phar: PHP Archive

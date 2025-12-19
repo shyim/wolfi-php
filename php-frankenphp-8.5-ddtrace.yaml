@@ -1,0 +1,55 @@
+package:
+  name: php-frankenphp-8.5-ddtrace
+  version: 1.15.0
+  epoch: 0
+  description: "Datadog PHP Clients"
+  copyright:
+    - license: Apache-2.0 OR BSD-3-Clause
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-frankenphp-8.5
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - build-base
+      - busybox
+      - curl-dev
+      - php-frankenphp-8.5
+      - php-frankenphp-8.5-dev
+      - posix-libc-utils
+      - rust
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/DataDog/dd-trace-php
+      tag: "${{package.version}}"
+      expected-commit: 3626b11959caa8f5133c1af14e864577ea9c056f
+
+  - name: Clone submodules
+    runs: git submodule update --init --recursive
+
+  - name: Prepare build
+    runs: phpize
+
+  - name: Configure
+    runs: ./configure
+
+  - name: Make install
+    runs: INSTALL_ROOT="${{targets.destdir}}" DESTDIR="${{targets.destdir}}" make install
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=ddtrace.so" > "${{targets.subpkgdir}}/etc/php/conf.d/ddtrace.ini"
+
+update:
+  enabled: true
+  github:
+    identifier: DataDog/dd-trace-php
+    use-tag: true
