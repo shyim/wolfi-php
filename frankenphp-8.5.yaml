@@ -1,0 +1,86 @@
+package:
+  name: frankenphp-8.5
+  version: 1.10.1
+  epoch: 0
+  description: "FrankenPHP"
+  copyright:
+    - license: MIT
+  dependencies:
+    runtime:
+      - libwatcher-c
+      - php-frankenphp-8.5
+
+environment:
+  contents:
+    packages:
+      - autoconf
+      - brotli-dev
+      - build-base
+      - busybox
+      - caddy-src
+      - go
+      - libwatcher-c-dev
+      - libxml2-dev
+      - php-frankenphp-8.5
+      - php-frankenphp-8.5-dev
+      - readline-dev
+      - sqlite-dev
+      - xcaddy
+
+pipeline:
+  - runs: |
+      mkdir -p "${{targets.destdir}}/var/www/html"
+      echo "<?php phpinfo();" > ${{targets.destdir}}/var/www/html/index.php
+
+      mkdir -p "${{targets.destdir}}/etc/caddy/"
+      cat <<EOF > "${{targets.destdir}}/etc/caddy/Caddyfile"
+      {
+        # Enable FrankenPHP
+        frankenphp
+        # Configure when the directive must be executed
+        order php_server before file_server
+      }
+
+      :8000 {
+        root * /var/www/html
+        # Enable compression (optional)
+        encode zstd br gzip
+        # Execute PHP files in the current directory and serve assets
+        php_server
+      }
+      EOF
+
+  - uses: git-checkout
+    with:
+      repository: https://github.com/dunglas/frankenphp
+      tag: "v${{package.version}}"
+      expected-commit: fc5f6ef0923ee06aa3640a71efc7e3f7802000c0
+
+  - name: Build
+    runs: |
+      # see https://github.com/dunglas/frankenphp/blob/main/Dockerfile#L90C17-L90C58
+      export CGO_CFLAGS="-DFRANKENPHP_VERSION=${{package.version}} $(php-config --includes)"
+      export CGO_LDFLAGS="$(php-config --ldflags) $(php-config --libs)"
+      export XCADDY_GO_BUILD_FLAGS="-ldflags '-w -s -X \"github.com/caddyserver/caddy/v2.CustomVersion=FrankenPHP (WolfiPHP) ${{ package.version }} Caddy\"'"
+      export CGO_ENABLED=1
+
+      mkdir -p ${{targets.destdir}}/usr/bin/
+
+      xcaddy build \
+        --output ${{targets.destdir}}/usr/bin/frankenphp \
+        --with github.com/dunglas/frankenphp=./ \
+        --with github.com/dunglas/frankenphp/caddy=./caddy/ \
+        --with github.com/caddyserver/caddy/v2=/usr/src/caddy \
+        --with github.com/dunglas/caddy-cbrotli \
+        --with github.com/dunglas/mercure/caddy \
+        --with github.com/dunglas/vulcain/caddy \
+        --with github.com/caddyserver/cache-handler
+
+  - uses: strip
+
+update:
+  enabled: true
+  github:
+    identifier: dunglas/frankenphp
+    strip-prefix: v
+    tag-filter: v
