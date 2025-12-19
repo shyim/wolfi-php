@@ -1,0 +1,47 @@
+package:
+  name: php-frankenphp-8.5-tideways
+  version: 5.31.0
+  epoch: 0
+  description: "Tideways PHP Probe"
+  copyright:
+    - license: PROPRIETARY
+  dependencies:
+    runtime:
+      - ${{package.name}}-config
+      - php-frankenphp-8.5
+
+environment:
+  contents:
+    packages:
+      - busybox
+      - wget
+
+pipeline:
+  - uses: fetch
+    if: ${{build.arch}} == 'x86_64'
+    with:
+      uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-x86_64.tar.gz
+      expected-sha512: b30c7339499c29e7d99084609e52f68bfbc33a5d98fcd8ba0c58ce624644c25731742581e1bb60a0ca1b0139a0865130408c4e80ef2764a3446898e19243453e
+
+  - uses: fetch
+    if: ${{build.arch}} == 'aarch64'
+    with:
+      uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-arm64.tar.gz
+      expected-sha512: 39957ba743552f3a46a00defefac1189b55d2a0952f5c1528316b4efd1a230b7b04bd0c7bd200da852492ab2c97ff2b0fd2ad2dfbb4c9f12e78aac3d60e9e001
+
+  - name: Copy
+    runs: |
+      mkdir -p ${{targets.destdir}}/usr/lib/php/modules/
+      cp tideways-php-8.5-zts.so ${{targets.destdir}}/usr/lib/php/modules/tideways.so
+
+subpackages:
+  - name: ${{package.name}}-config
+    pipeline:
+      - runs: |
+          mkdir -p "${{targets.subpkgdir}}/etc/php/conf.d"
+          echo "extension=tideways.so" > "${{targets.subpkgdir}}/etc/php/conf.d/tideways.ini"
+
+update:
+  enabled: true
+  release-monitor:
+    identifier: 371870
