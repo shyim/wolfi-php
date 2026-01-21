@@ -1,5 +1,11 @@
 # Wolfi-OS PHP Repository
 
+> [!CAUTION]
+> ⚠️ DO NOT USE THIS APPROACH ANYMORE
+> 
+> [Chainguard has significantly reduced its commitment to open source, and the Wolfi PHP approach described here is no longer recommended for production use.](https://github.com/orgs/wolfi-dev/discussions/77550)
+> Alternative: Use Debian’s official packages with apt-get install php8.4-cli and related packages. While images may be larger, Debian provides stable, openly maintained PHP packages without dependency on corporate-controlled initiatives.
+
 This Repository contains popular PHP extensions pre-compiled to be used in Wolfi-OS. [I am trying to upstream all packages to the official repository](https://github.com/wolfi-dev/os/pulls?q=+is%3Apr+author%3Ashyim+).
 The packages are all built for x86_64 and aarch64. A GitHub bot is automatically updating the packages and opens a new PR if a new version is available. 
 The repository is hosted with Cloudflare R2 storage and with good caching rules, so it should be fast worldwide. 
