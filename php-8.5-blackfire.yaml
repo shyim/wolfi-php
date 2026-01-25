@@ -1,6 +1,6 @@
 package:
   name: php-8.5-blackfire
-  version: 1.92.51
+  version: 1.92.59
   epoch: 0
   description: "Blackfire PHP Probe"
   copyright:
@@ -20,14 +20,14 @@ pipeline:
     if: ${{build.arch}} == 'x86_64'
     with:
       uri: https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_amd64-php-85.so
-      expected-sha512: 222dbc45b2106b85cdd157cd8e213aae32877bb9cbdd47083ab446c439660ed5d6ed3c679d6c8d40ec2713fa755d33104ce402cb9ab0afbc0fe3622bf73263a3
+      expected-sha512: 1dc34c211497e4d5983fab8405d116ee20c5c44eb95846649572cd229a9db62e7e7c09b8ead1afdb85128cb8084f6a969ce442e9c97f9fe94cb893a446701546
       extract: false
 
   - uses: fetch
     if: ${{build.arch}} == 'aarch64'
     with:
       uri: https://packages.blackfire.io/binaries/blackfire-php/${{package.version}}/blackfire-php-linux_arm64-php-85.so
-      expected-sha512: 1f12920019ee2dcf8700264acb526cd2b6035df5302cacf01411eb33fa41919c029317711870cd76c1bc915ba170d89fe12596316094754d06f7026cd09d155f
+      expected-sha512: d9f2b091c6d7223093027a02876aaf0fdab7fdcfd2883a28c9a87ee7b908654a224e2ae87f0eef8f25ba7df9e396e9dc8f0ba050d44aae1f49ad0ed12ba79101
       extract: false
 
   - name: Copy
