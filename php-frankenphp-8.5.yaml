@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.5
-  version: 8.5.2
+  version: 8.5.3
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -68,7 +68,7 @@ pipeline:
     with:
       repository: https://github.com/php/php-src
       tag: php-${{package.version}}
-      expected-commit: ea75635f1daa18c0244190d2413dec21a3d26bad
+      expected-commit: f665c20219d0861fcbdd1f663fc4ac061f245a3c
 
   - name: Configure
     runs: |
