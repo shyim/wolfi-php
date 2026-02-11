@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.3-mongodb
-  version: 2.1.8
+  version: 2.2.0
   epoch: 0
   description: "MongoDB driver"
   copyright:
@@ -32,7 +32,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://pecl.php.net/get/mongodb-${{package.version}}.tgz
-      expected-sha512: 802f2a4944ec80553c52dc237b63106066274f2e09f9003f9d616a097455b192b757db9479fc696a3a1b52b20c352358db9f461f8489dd25071fdab7300e5d80
+      expected-sha512: e441e786ce98832765f5bde788c2802c5b550b3cca27729617da86e720f34fd9b7ca2e111a76920c81353ff320e6d59fbc8f5e8e89e97930873aaca691642b02
 
   - name: phpize and configure
     runs: |
