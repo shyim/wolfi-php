@@ -1,6 +1,6 @@
 package:
   name: php-8.4
-  version: 8.4.17
+  version: 8.4.18
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -70,7 +70,7 @@ pipeline:
     with:
       repository: https://github.com/php/php-src
       tag: php-${{package.version}}
-      expected-commit: 2eadc5c169e43ee09c3707d94ed8b5c9b1257afb
+      expected-commit: c8f4422ecb3a51bb1edb9bd792fb08f4efa230b8
 
   - name: Configure
     runs: |
