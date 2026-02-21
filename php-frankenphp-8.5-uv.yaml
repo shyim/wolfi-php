@@ -1,7 +1,7 @@
 package:
   name: php-frankenphp-8.5-uv
   version: 0.3.0
-  epoch: 0
+  epoch: 1
   description: "Interface to libuv for php"
   copyright:
     - license: PHP-3.01
