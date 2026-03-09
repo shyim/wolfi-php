@@ -36,7 +36,7 @@ jobs:
             - name: Login into Github Docker Registery
               run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            - uses: docker/build-push-action@v6
+            - uses: docker/build-push-action@v7
               with:
                 tags: ghcr.io/shyim/wolfi-php/base:latest
                 platforms: linux/amd64,linux/arm64
@@ -72,7 +72,7 @@ jobs:
           - name: Login into Github Docker Registery
             run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          - uses: docker/build-push-action@v6
+          - uses: docker/build-push-action@v7
             with:
               tags: ghcr.io/shyim/wolfi-php/frankenphp:${{ matrix.php }}
               platforms: linux/amd64,linux/arm64
@@ -109,7 +109,7 @@ jobs:
           - name: Login into Github Docker Registery
             run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          - uses: docker/build-push-action@v6
+          - uses: docker/build-push-action@v7
             with:
               tags: ghcr.io/shyim/wolfi-php/fpm:${{ matrix.php }}
               platforms: linux/amd64,linux/arm64
@@ -147,7 +147,7 @@ jobs:
           - name: Login into Github Docker Registery
             run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          - uses: docker/build-push-action@v6
+          - uses: docker/build-push-action@v7
             with:
               tags: ghcr.io/shyim/wolfi-php/nginx:${{ matrix.php }}
               platforms: linux/amd64,linux/arm64
@@ -185,7 +185,7 @@ jobs:
           - name: Login into Github Docker Registery
             run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-          - uses: docker/build-push-action@v6
+          - uses: docker/build-push-action@v7
             with:
               tags: ghcr.io/shyim/wolfi-php/caddy:${{ matrix.php }}
               platforms: linux/amd64,linux/arm64
