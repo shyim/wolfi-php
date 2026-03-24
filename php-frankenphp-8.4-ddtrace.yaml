@@ -14,9 +14,11 @@ environment:
   contents:
     packages:
       - autoconf
+      - automake
       - build-base
       - busybox
       - curl-dev
+      - libtool
       - php-frankenphp-8.4
       - php-frankenphp-8.4-dev
       - posix-libc-utils
