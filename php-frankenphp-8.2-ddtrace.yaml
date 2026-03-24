@@ -14,6 +14,7 @@ environment:
   contents:
     packages:
       - autoconf
+      - automake
       - build-base
       - busybox
       - curl-dev
