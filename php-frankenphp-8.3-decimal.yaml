@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.3-decimal
-  version: 1.5.0
+  version: 1.5.1
   epoch: 0
   description: Correctly-rounded, arbitrary-precision decimal arithmetic for PHP
   copyright:
@@ -25,7 +25,7 @@ pipeline:
     with:
       repository: https://github.com/php-decimal/ext-decimal
       tag: "v${{package.version}}"
-      expected-commit: 9b4d6f4cf282230a0949ef4204e0b6bfe29b2c51
+      expected-commit: 0de23e8e33dff59e5ddc136e092002ef3a86ca18
 
   - name: Prepare build
     runs: phpize
