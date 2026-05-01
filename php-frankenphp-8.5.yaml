@@ -51,11 +51,12 @@ environment:
       - libxml2-dev
       - libxpm-dev
       - libxslt-dev
-      - libzip
+      - libzip-dev
       - nghttp2-dev
       - oniguruma-dev
       - openldap-dev
       - openssl-dev
+      - pcre2-dev
       - postgresql-dev
       - re2c
       - readline-dev
