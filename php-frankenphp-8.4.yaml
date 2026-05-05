@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.4
-  version: 8.4.19
+  version: 8.4.20
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -51,11 +51,12 @@ environment:
       - libxml2-dev
       - libxpm-dev
       - libxslt-dev
-      - libzip
+      - libzip-dev
       - nghttp2-dev
       - oniguruma-dev
       - openldap-dev
       - openssl-dev
+      - pcre2-dev
       - postgresql-dev
       - re2c
       - readline-dev
@@ -68,7 +69,7 @@ pipeline:
     with:
       repository: https://github.com/php/php-src
       tag: php-${{package.version}}
-      expected-commit: d4242a6310a1903b5651f320dda75e2d57cbb458
+      expected-commit: 90744ec52a50e0eacab47d5a51d82c1b26607b76
 
   - name: Configure
     runs: |
