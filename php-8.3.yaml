@@ -53,7 +53,7 @@ environment:
       - libxml2-dev
       - libxpm-dev
       - libxslt-dev
-      - libzip
+      - libzip-dev
       - nghttp2-dev
       - oniguruma-dev
       - openldap-dev
