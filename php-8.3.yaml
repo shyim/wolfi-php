@@ -1,6 +1,6 @@
 package:
   name: php-8.3
-  version: 8.3.30
+  version: 8.3.31
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -53,7 +53,7 @@ environment:
       - libxml2-dev
       - libxpm-dev
       - libxslt-dev
-      - libzip
+      - libzip-dev
       - nghttp2-dev
       - oniguruma-dev
       - openldap-dev
@@ -70,7 +70,7 @@ pipeline:
     with:
       repository: https://github.com/php/php-src
       tag: php-${{package.version}}
-      expected-commit: 75fc91c622fa42757653b2f2f6621c2f53de86ce
+      expected-commit: dff62b8bdb21a5d610ef08e4291277724724c4d7
 
   - name: Configure
     runs: |
