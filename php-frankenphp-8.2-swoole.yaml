@@ -1,7 +1,7 @@
 package:
   name: php-frankenphp-8.2-swoole
   version: 6.2.1
-  epoch: 0
+  epoch: 1
   description: "Coroutine-based concurrency library for PHP"
   copyright:
     - license: Apache-2.0
@@ -26,7 +26,7 @@ pipeline:
     with:
       repository: https://github.com/swoole/swoole-src
       tag: "v${{package.version}}"
-      expected-commit: 7b406ed1381e18ae0fbfca4b09357530c261f281
+      expected-commit: 163f173caa7b1e2391d5dfec5969a12d8c76cc02
 
   - name: Prepare build
     runs: phpize
