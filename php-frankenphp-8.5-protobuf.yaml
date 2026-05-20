@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.5-protobuf
-  version: 5.34.1
+  version: 5.35.0
   epoch: 0
   description: "Protocol Buffers - Google's data interchange format"
   copyright:
@@ -24,7 +24,7 @@ pipeline:
   - uses: fetch
     with:
       uri: https://pecl.php.net/get/protobuf-${{package.version}}.tgz
-      expected-sha512: e83d5ebfe6bfc11202f52e7327b8ce0fcd607a44be42d07e4ea4785bbba71fcd56a99259e76439cc1f9edd16b04753280007ca40dc59bc442570a610b2b8084c
+      expected-sha512: 7951fbe0926bb4be97a78dfc4b9627e79baf5004e4d37dd86afbfd720208928cd8103d4b9f98ae3c5b98def8dde9923b3f8ee5492214c640c1844383b2c8f6f3
 
   - name: Prepare build
     runs: phpize
