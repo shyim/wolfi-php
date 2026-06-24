@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.3-tideways
-  version: 5.41.0
+  version: 5.42.0
   epoch: 0
   description: "Tideways PHP Probe"
   copyright:
@@ -21,13 +21,13 @@ pipeline:
     if: ${{build.arch}} == 'x86_64'
     with:
       uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-x86_64.tar.gz
-      expected-sha512: 26d2607134d9c01617abc952d0d0bbc95ea25aee57bbf1bf6ac17c3f362fc8c88561aa231d09acfe21c657aa034c4309cf2b541a519b7e5d98b5d842cde55e35
+      expected-sha512: 7b03f90bf02576195bdf80437230dd6f65af000cefc05b15369aaaef21665474717e313c87f9e402ccfc56e68425151af8403c74074ec9c0f59d38ba02680a08
 
   - uses: fetch
     if: ${{build.arch}} == 'aarch64'
     with:
       uri: https://tideways.s3.amazonaws.com/extension/${{package.version}}/tideways-php-${{package.version}}-arm64.tar.gz
-      expected-sha512: 95019b182226df75f0a73c917e247f558f652ddf8bf5ea6e1c8ad6568ffd689fec4309b9388bf47ab7f79aa5f1a915349e1b60730c21957147647f3869e14769
+      expected-sha512: c8e042f83b7a1a4df185a76e1ddf749bb548927f156b728e1be67da1b7409249229a69b2527fea2cc13de7d7fa764421aeeb5365dbd22264bcb8571679b3b49f
 
   - name: Copy
     runs: |
