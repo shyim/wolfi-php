@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.5-ddtrace
-  version: 1.22.0
+  version: 1.26.1
   epoch: 0
   description: "Datadog PHP Clients"
   copyright:
@@ -29,7 +29,7 @@ pipeline:
     with:
       repository: https://github.com/DataDog/dd-trace-php
       tag: "${{package.version}}"
-      expected-commit: 39b0b10adf5cd425c0a8e264ba94f622606e38d8
+      expected-commit: 48bfd8d265a28f24f14f3b7cc1db28f2a9cbe5b3
 
   - name: Clone submodules
     runs: git submodule update --init --recursive
