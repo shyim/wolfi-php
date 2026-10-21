@@ -1,6 +1,6 @@
 package:
   name: php-8.2
-  version: 8.2.32
+  version: 8.2.35
   epoch: 0
   description: "the PHP programming language"
   copyright:
@@ -65,7 +65,7 @@ pipeline:
     with:
       repository: https://github.com/php/php-src
       tag: php-${{package.version}}
-      expected-commit: e68d36b614cc80aa76ec6660a84858eaf6957cd2
+      expected-commit: 09a9f29a0402bb87bb448cb2e3149ccbec1699c6
 
   - name: Configure
     runs: |
