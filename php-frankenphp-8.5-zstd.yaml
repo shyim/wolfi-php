@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.5-zstd
-  version: 0.16.0
+  version: 0.18.0
   epoch: 0
   description: Zstd Extension for PHP
   copyright:
@@ -26,7 +26,7 @@ pipeline:
     with:
       repository: https://github.com/kjdev/php-ext-zstd
       tag: "${{package.version}}"
-      expected-commit: 47a0d64778056c17162dd17887460c308f39057f
+      expected-commit: c2593a4ce2457b23e7fa7f81ddf0dd9bbdd89b47
 
   - name: Prepare build
     runs: phpize
