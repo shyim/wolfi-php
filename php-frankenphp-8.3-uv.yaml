@@ -1,6 +1,6 @@
 package:
   name: php-frankenphp-8.3-uv
-  version: 0.3.0
+  version: 0.3.1
   epoch: 0
   description: "Interface to libuv for php"
   copyright:
@@ -25,7 +25,7 @@ pipeline:
     with:
       repository: https://github.com/amphp/ext-uv
       tag: "v${{package.version}}"
-      expected-commit: 1d18f5d1d12e77c24b6b0b9d69194b1051efae66
+      expected-commit: e56d640371a5d99eea2e9437cf4739c82e82d99e
 
   - name: Prepare build
     runs: phpize
